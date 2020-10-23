@@ -48,7 +48,7 @@ function TopicSideNav() {
                 {
                     items.map(item => (
                         <NavItem>
-                            <NavLink href={`${url}${item.path}`} >{item.title}</NavLink>
+                            <NavLink href={`${url}${item.path}`} >{item.title.toUpperCase()}</NavLink>
                         </NavItem>
                     ))
                 }

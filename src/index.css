@@ -26,10 +26,6 @@ section{
 
 .tagline{
   color: #fbfcfd;
-  position: absolute;
-  top: 50%;
-  left: 8%;
-  transform: translateY(-50%);
 }
 .tagline>h1{
   font-size: 80px;
@@ -47,3 +43,25 @@ section{
 a.nav-link:hover{
   color: #000;
 } */
+
+.footer{background-color:#29292c;padding: 30px 0;}
+.ftr_txt{font-weight: 400;font-size:16px;color:#58585d;margin:0px;}
+.ftr_head{font-weight: 600;color:#fff;}
+.ftr_details li a{font-weight: 400;;
+color:#dedede;}
+.ftr_details li a:hover{text-decoration: none;background-color: transparent;color: #f15822 !important;}
+.ftr_details{list-style: none;padding-left: 0px;}
+.ftr_details li{padding-bottom:12px;}
+.bdr-ftr{border-left: 1px solid #b9b9b9;padding-left: 30px;}
+.ftr_lst {list-style-type: none;margin: 0;padding: 0;overflow: hidden;color:#dedede;}
+.ftr_lst li {font-weight: 400;color:#dedede !important;} 
+.ftr_lst li{padding-bottom:12px;}
+.ftr-counter div{text-align: center;padding: 10px;color: #fff; font-size: 16px; border-top: 1px solid #ccc;}
+.ftr-counter div p{margin: 8px 0 0 0!important; font-size: 22px !important;}
+.ftr-counter-1{background:#C76135;}
+.ftr-counter-2{background:#808080;}
+.ftr-counter-3{background:#99A819;}
+.ftr-counter-4{background:#FFCC00;}
+
+.ftr-logo-1{background:#fff;}
+.ftr-logo-2{background:#fff;}

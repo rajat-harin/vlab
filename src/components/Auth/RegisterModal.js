@@ -21,6 +21,7 @@ class RegisterModal extends Component {
         username: '',
         email: '',
         password: '',
+        isAdmin: false,
         msg: null
     }
 
@@ -64,11 +65,12 @@ class RegisterModal extends Component {
     onSubmit = e => {
         e.preventDefault();
 
-        const { username, email, password } = this.state;
+        const { username, email, password , isAdmin} = this.state;
         const newUser = {
             username,
             email,
-            password
+            password,
+            isAdmin
         }
         this.props.register(newUser);
 
@@ -133,6 +135,7 @@ class RegisterModal extends Component {
 
 const mapStateToProps = state => ({
     isAuthenticated: state.auth.isAuthenticated,
+    isAdmin: state.auth.isAdmin,
     error: state.error
 })
 

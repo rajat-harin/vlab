@@ -20,10 +20,10 @@ router.get('/branchData/:name', (req, res) => {
 
 router.get('/:name', (req, res) => {
     Topic.find({
-        name: req.params.name
+        simulation: req.params.name
     })
-        .then(subject => {
-            res.json(subject)
+        .then(result => {
+            res.json(result)
         })
         .catch(err => {
             res.status(400).json('Error: ' + err)
@@ -32,7 +32,7 @@ router.get('/:name', (req, res) => {
 
 
 router.post('/', (req, res) => {
-    let { name, branch, subject, introduction, theory, objective, procedure } = req.body;
+    let { name, branch, subject, introduction, theory, objective, procedure, simulation } = req.body;
     //field validation
     if (!name || !branch || !subject) {
         console.log("error in fields");
@@ -51,7 +51,8 @@ router.post('/', (req, res) => {
                 introduction,
                 theory,
                 objective,
-                procedure
+                procedure,
+                simulation
             });
 
             newTopic.save()

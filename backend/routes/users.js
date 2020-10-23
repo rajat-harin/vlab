@@ -4,13 +4,17 @@ const jwt = require('jsonwebtoken');
 let User = require('../models/user.model');
 
 router.get('/', (req, res) => {
+    console.log("users req.body");
+    console.log(req.body);
     User.find()
-        .then(users => res.json(users))
+        .then(users =>{
+            console.log(users);
+            res.json(users)})
         .catch(err => res.status(400).json('Error: ' + err));
 });
 
 router.post('/add', (req, res) => {
-    let { username, password, email } = req.body;
+    let { username, password, email, isAdmin } = req.body;
     //field validation
     if (!username || !password || !email) {
         console.log("error in fields");
@@ -25,7 +29,8 @@ router.post('/add', (req, res) => {
             const newUser = new User({
                 username,
                 password,
-                email
+                email,
+                isAdmin
             });
             //generate salt and hash
             bcrypt.genSalt(10, (err, salt) => {
@@ -46,7 +51,8 @@ router.post('/add', (req, res) => {
                                         user: {
                                             id: user.id,
                                             username: user.username,
-                                            email: user.email
+                                            email: user.email,
+                                            isAdmin: user.isAdmin
                                         }
                                     });
                                 }

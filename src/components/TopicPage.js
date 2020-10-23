@@ -5,7 +5,7 @@ import TopicComponent from './TopicComponent';
 
 import TopicSideNav from './TopicSideNav';
 
-function TopicPage() {
+function TopicPage({match}) {
     let { topic } = useParams();
     useEffect(() => {
         fetchTopic();
@@ -19,9 +19,11 @@ function TopicPage() {
                 'Content-Type': 'application/json'
             }
         };
-        Axios.get(`/topic/${topic}`, config)
+        console.log(match);
+        Axios.get(`/topic/${match.params.topic}`, config)
             .then(res => {
                 setTopicDetails(res.data[0]);
+                console.log(res.data[0]);
             })
             .catch(err => {
                 console.log(err);
@@ -35,7 +37,6 @@ function TopicPage() {
                 <Route path="/branch/:branch/:topic/:option">
                     <TopicComponent topic={topicDetails} />
                 </Route>
-
             </Switch>
 
         </div>

@@ -15,6 +15,7 @@ import LoginModal from './Auth/LoginModal';
 import Logout from './Auth/Logout';
 import RegisterModal from './Auth/RegisterModal';
 import { NavLink as RRNavLink } from 'react-router-dom';
+import AddSimModal from './AddSimModal';
 
 class AppNavbar extends Component {
     state = {
@@ -33,6 +34,7 @@ class AppNavbar extends Component {
 
     render() {
         const { user, isAuthenticated } = this.props.auth;
+        let isAdmin = (this.props.auth.user)? this.props.auth.user.isAdmin: false;
         const authLinks = (
             <Fragment>
                 <NavItem>
@@ -55,6 +57,13 @@ class AppNavbar extends Component {
                 </NavItem>
             </Fragment>
         )
+        const adminLinks = (
+            <Fragment>
+                <NavItem>
+                    <AddSimModal />
+                </NavItem>
+            </Fragment>
+        )
         return (
             <div>
                 <Navbar color="dark" dark expand="lg" fixed="top" className="trans">
@@ -71,7 +80,9 @@ class AppNavbar extends Component {
                             <NavItem>
                                 <NavLink to="/about" className="anchors" tag={RRNavLink}>About</NavLink>
                             </NavItem>
+                            {isAdmin? adminLinks: (<Fragment></Fragment>)}
                             {isAuthenticated ? authLinks : guestLinks}
+                            
                         </Nav>
                     </Collapse>
                 </Navbar>

@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./bootstrap-4.5.2-dist/css/bootstrap.css">
+    <title>GHRCE vLab</title>
+</head>
+<style>
+    .cell {
+        width: 3rem;
+        height: 3rem;
+        margin-top: auto;
+        margin-bottom: auto;
+        background: #FFC730;
+        display: flex;
+        justify-content: center;
+        line-height: 3rem;
+        color: #000;
+        font-weight: bold;
+        border-style: solid;
+        border-color: #fff;
+        border-width: 1px;
+    }
+
+    section {
+        border-style: solid;
+        border-color: black;
+        border-width: 1px;
+        height: 90vh;
+    }
+
+    body {
+        background: #252423;
+        color: white;
+    }
+
+    .dark {
+        background: #252423;
+        color: white;
+    }
+
+    .controller {
+        padding: 10px;
+    }
+
+    .playground {
+        padding: 20px;
+    }
+
+    .navKeys {
+        margin-left: 20px;
+    }
+</style>
+
+<body>
+    <section class="playground">
+        <h1>
+            Array: Intro
+        </h1>
+
+        <br>
+        <div class="card dark controller">
+            <form>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group row">
+                            <label for="valueField" class="col-sm-4 col-form-label">Element to be added:</label>
+                            <input type="number" class="form-control form-control-sm col-sm-6" id="valueField"
+                                placeholder="element">
+                        </div>
+                    </div>
+                    <div class="col">
+                        <button type="button" class="btn btn-success form-control-sm" onclick="onAddListner(event)"> Add
+                        </button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group row">
+                            <label for="indexField" class="col-sm-4 col-form-label">index of element :</label>
+                            <input type="number" class="form-control form-control-sm col-sm-6" id="indexField"
+                                placeholder="index">
+                        </div>
+                    </div>
+                    <div class="col">
+                        <button type="button" class="btn btn-danger form-control-sm" onclick="onRemoveListner(event)">
+                            Remove </button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group row">
+                            <label for="sizeField" class="col-sm-4 col-form-label">Size of Array:</label>
+                            <input type="number" class="form-control form-control-sm col-sm-6" id="sizeField"
+                                placeholder="element">
+                        </div>
+                    </div>
+                    <div class="col">
+                        <button type="button" class="btn btn-success form-control-sm"
+                            onclick="generateRandomArray(event)">
+                            Generate Random Array
+                        </button>
+                    </div>
+                    <div class="col">
+                        <h6 class="text-danger navKeys" id="errorInfo">
+                        </h6>
+                    </div>
+            </form>
+        </div>
+        <div class="row" id="floor">
+            <br />
+        </div>
+
+
+    </section>
+    <script src="./js/anime/anime.min.js"></script>
+    <script>
+        anime({
+            targets: '.cell',
+            translateX: 50,
+            translateY: 100,
+            //loop: true,
+            easing: 'easeOutQuad'
+        });
+    </script>
+
+    <script>
+        function addToArray(index) {
+            anime({
+                targets: ".cell",
+                translateX: {
+                    value: 50,
+                    duration: 800
+                },
+                rotate: {
+                    value: 360,
+                    duration: 1800,
+                    easing: 'easeInOutSine'
+                },
+                translateY: 100,
+                duration: 3000,
+                delay: 1000,
+                easing: 'easeOutQuad'
+            });
+        }
+        var index = 0;
+        var size = 0;
+        function generateRandomArray(event) {
+            sizeField = document.getElementById('sizeField');
+            size = (sizeField.value)?sizeField.value:Math.floor(Math.random() * 21);
+            size = (size>20)?20:size;
+            document.getElementById('floor')
+                .innerHTML = '<br/>';
+            var size = Math.floor(Math.random() * 21);
+            for (let i = 0; i < size; i++) {
+                var num = Math.floor(Math.random() * 101);
+                document.getElementById('floor')
+                    .innerHTML += '<div id="in'
+                    + i + '"class="cell column">'
+                    + num + '<br/> </small> ['
+                    + i + ']</small>'
+                    + '</div>';
+                addToArray(index);
+                index++
+            }
+            event.preventDefault();
+        }
+        function onAddListner(event) {
+
+            var valueField = document.getElementById('valueField');
+            var indexField = document.getElementById('indexField');
+            var pointer = indexField.value ? indexField.value : index;
+            
+            if (pointer >= size) {
+                var myobj = document.getElementById('errorInfo');
+                //myobj.removeChild(myobj.childNodes);
+                myobj.innerHTML = 'Maximum Arraysize reached!';
+            }
+            else {
+                var number = valueField.value ? valueField.value : Math.floor(Math.random() * 101);
+                let id = 'in' + (pointer).toString()
+                var myobj = document.getElementById(id);
+                myobj.innerHTML = ' ' + number + '<br/> </small> ['
+                    + pointer + ']</small>';
+                addToArray(index);
+                if(pointer== index){
+                    index++;
+                }
+            
+            }
+            event.preventDefault();
+
+
+        }
+        function onRemoveListner(event) {
+            var indexField = document.getElementById('indexField');
+            var num = indexField.value ? indexField.value : index-1;
+            if (num <= 0) {
+                var myobj = document.getElementById('errorInfo');
+                //myobj.removeChild(myobj.childNodes);
+                myobj.innerHTML = 'Array Is Empty!';
+            }
+            else {
+                let id = 'in' + (num).toString()
+                var myobj = document.getElementById(id);
+                myobj.innerHTML = 'Null<br/> </small> ['
+                    + num + ']</small>';
+                if(num==index)
+                index--;
+            }
+            event.preventDefault();
+        }
+    </script>
+
+</body>
+
+</html>

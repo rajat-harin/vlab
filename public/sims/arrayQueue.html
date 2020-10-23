@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./bootstrap-4.5.2-dist/css/bootstrap.css">
+    <title>GHRCE vLab</title>
+</head>
+<style>
+    .cell {
+        width: 3rem;
+        height: 3rem;
+        margin-top: auto;
+        margin-bottom: auto;
+        background: #FFC730;
+        display: flex;
+        justify-content: center;
+        line-height: 3rem;
+        color: #000;
+        font-weight: bold;
+        border-style: solid;
+        border-color: #fff;
+        border-width: 1px;
+    }
+
+    section {
+        border-style: solid;
+        border-color: black;
+        border-width: 1px;
+        height: 90vh;
+    }
+
+    body {
+        background: #252423;
+        color: white;
+    }
+
+    .dark {
+        background: #252423;
+        color: white;
+    }
+
+    .controller {
+        padding: 10px;
+    }
+
+    .playground {
+        padding: 20px;
+    }
+
+    .navKeys {
+        margin-left: 20px;
+    }
+</style>
+
+<body>
+    <section class="playground">
+        <h1>
+            Queue: Array Implementation
+        </h1>
+
+        <br>
+        <div class="card dark controller">
+            <form>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group row">
+                            <label for="valueField" class="col-sm-4 col-form-label">Element to be added:</label>
+                            <input type="number" class="form-control form-control-sm col-sm-6" id="valueField"
+                                placeholder="element">
+                        </div>
+                    </div>
+                    <div class="col col-sm-2">
+                        <button type="button" class="btn btn-success form-control-sm" onclick="onAddListner(event)">
+                            Queue
+                        </button>
+                    </div>
+                    <div class="col col-sm-2">
+                        <button type="button" class="btn btn-danger form-control-sm" onclick="onRemoveListner(event)">
+                            Dequeue
+                        </button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group row">
+                            <label for="sizeField" class="col-sm-4 col-form-label">Size of Stack:</label>
+                            <input type="number" class="form-control form-control-sm col-sm-6" id="sizeField"
+                                placeholder="element">
+                        </div>
+                    </div>
+                    <div class="col">
+                        <button type="button" class="btn btn-success form-control-sm" onclick="generateStack(event)">
+                            Generate Queue
+                        </button>
+                    </div>
+                    <div class="col">
+                        <h6 class="text-danger navKeys" id="errorInfo">
+                        </h6>
+                    </div>
+            </form>
+        </div>
+        <div class="row" id="floor">
+            <br />
+        </div>
+
+
+    </section>
+    <script src="./js/anime/anime.min.js"></script>
+    <script>
+        anime({
+            targets: '.cell',
+            translateX: 50,
+            translateY: 100,
+            //loop: true,
+            easing: 'easeOutQuad'
+        });
+    </script>
+
+    <script>
+        function addToArray(index) {
+            anime({
+                targets: ".cell",
+                translateX: {
+                    value: 50,
+                    duration: 800
+                },
+                rotate: {
+                    value: 360,
+                    duration: 1800,
+                    easing: 'easeInOutSine'
+                },
+                translateY: 100,
+                duration: 3000,
+                delay: 1000,
+                easing: 'easeOutQuad'
+            });
+        }
+        var front = 0;
+        var back = 0;
+        var size = 0;
+        function generateStack(event) {
+            front = 0;
+            back = 0;
+            size = 0;
+            var SIZE = document.getElementById('sizeField');
+            //let val = document.getElementById('element').value;
+            document.getElementById('floor')
+                .innerHTML = '<br/>';
+            size = SIZE.value ? SIZE.value : Math.floor(Math.random() * 11);
+            for (let i = 0; i < size; i++) {
+                var num = "NULL"
+                document.getElementById('floor')
+                    .innerHTML += '<div id="in'
+                    + i + '"class="cell column">'
+                    + num + '<br/> </small> ['
+                    + i + ']</small>'
+                    + '</div>';
+                addToArray(0);
+            }
+            event.preventDefault();
+        }
+        function onAddListner(event) {
+            var valueField = document.getElementById('valueField');
+            if (back > size - 1) {
+                var myobj = document.getElementById('errorInfo');
+                //myobj.removeChild(myobj.childNodes);
+                myobj.innerHTML = 'Queue is full!';
+            }
+            else {
+                var number = valueField.value ? valueField.value : Math.floor(Math.random() * 101);
+                var num = back;
+                let id = 'in' + (num).toString()
+                var myobj = document.getElementById(id);
+                myobj.innerHTML = ' ' + number + '<br/> </small> ['
+                    + num + ']</small>';
+                addToArray(0);
+                back++;
+            }
+            event.preventDefault();
+
+
+        }
+        function onRemoveListner(event) {
+
+            if (front > size - 1 || front > back) {
+                var myobj = document.getElementById('errorInfo');
+                //myobj.removeChild(myobj.childNodes);
+                myobj.innerHTML = 'Queue is Empty!';
+            }
+            else {
+                var num = front;
+                let id = 'in' + (num).toString()
+                var myobj = document.getElementById(id);
+                myobj.innerHTML = 'Null<br/> </small> ['
+                    + num + ']</small>';
+                front++;
+            }
+            event.preventDefault();
+        }
+    </script>
+
+</body>
+
+</html>

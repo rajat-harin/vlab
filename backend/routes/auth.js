@@ -7,7 +7,9 @@ let User = require('../models/user.model');
 router.get('/', auth, (req, res) => {
     User.findById(req.user.id)
         .select('-password')
-        .then(user => res.json(user))
+        .then(user => {
+            res.json(user)
+        })
         .catch(err => res.status(400).json({ msg: 'Error!' }));
 });
 
@@ -43,7 +45,8 @@ router.post('/', (req, res) => {
                                 user: {
                                     id: user.id,
                                     username: user.username,
-                                    email: user.email
+                                    email: user.email,
+                                    isAdmin: user.isAdmin
                                 }
                             });
                         }
