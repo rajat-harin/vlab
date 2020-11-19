@@ -37,11 +37,13 @@ connection.once('open', (err) => {
 const usersRoute = require('./routes/users');
 const authRoute = require('./routes/auth');
 const topicRoute = require('./routes/topic');
+const uploadRoute = require('./routes/upload');
 
 //routes connection
 app.use('/users', usersRoute);
 app.use('/auth', authRoute);
 app.use('/topic', topicRoute);
+app.use('/upload', uploadRoute);
 
 //server
 app.listen(port, (err) => {

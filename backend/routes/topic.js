@@ -4,17 +4,34 @@ let Topic = require('../models/topic.model');
 router.get('/', (req, res) => {
     Topic.find()
         .then(topics => res.json(topics))
-        .catch(err => res.status(400).json('Error: ' + err));
+        .catch(err => res.status(400).json({ msg: 'Error!', err: JSON.stringify(err) }));
 });
-router.get('/branchData/:name', (req, res) => {
+router.get('/branchData/:branch/:subject', (req, res) => {
     Topic.find({
-        branch: req.params.name
+        branch: req.params.branch,
+        subject: req.params.subject
     })
         .then(subject => {
             res.json(subject)
         })
         .catch(err => {
-            res.status(400).json('Error: ' + err)
+            res.status(400).json({ msg: 'Error!' })
+        });
+});
+
+router.get('/subject/:name', (req, res) => {
+    Topic.aggregate([
+        { $match: { branch: req.params.name } },
+        { $group: { _id: "$subject", count: { $sum: 1 } } }
+      ])
+        .then(subject => {
+            console.log("listing Subject....:");
+            console.log(subject);
+            res.json(subject)
+        })
+        .catch(err => {
+            console.log("ERROR listing Subject....:" + err);
+            res.status(400).json({ msg: 'Error!' })
         });
 });
 

@@ -52,6 +52,10 @@
     .navKeys {
         margin-left: 20px;
     }
+
+    #code {
+        border: #fff;
+    }
 </style>
 
 <body>
@@ -72,7 +76,9 @@
                         </div>
                     </div>
                     <div class="col">
-                        <button type="button" class="btn btn-success form-control-sm" onclick="onAddListner(event)"> Add
+                        <button type="button" class="btn btn-success form-control-sm" data-toggle="tooltip"
+                            title="Add elemnt to the array! add random number if not specified in adjacent input box"
+                            onclick="onAddListner(event)"> Add
                         </button>
                     </div>
                 </div>
@@ -85,7 +91,10 @@
                         </div>
                     </div>
                     <div class="col">
-                        <button type="button" class="btn btn-danger form-control-sm" onclick="onRemoveListner(event)">
+                        <button type="button" class="btn btn-danger form-control-sm" 
+                            data-toggle="tooltip"
+                            title="Removes element from the array which index is specified in adjacent input box"
+                            onclick="onRemoveListner(event)">
                             Remove </button>
                     </div>
                 </div>
@@ -94,11 +103,13 @@
                         <div class="form-group row">
                             <label for="sizeField" class="col-sm-4 col-form-label">Size of Array:</label>
                             <input type="number" class="form-control form-control-sm col-sm-6" id="sizeField"
-                                placeholder="element">
+                                placeholder="size">
                         </div>
                     </div>
                     <div class="col">
                         <button type="button" class="btn btn-success form-control-sm"
+                            data-toggle="tooltip"
+                            title="Generates Array with random element with the size speciefied in box. takes random size if not specified in adjacent input box"
                             onclick="generateRandomArray(event)">
                             Generate Random Array
                         </button>
@@ -109,12 +120,27 @@
                     </div>
             </form>
         </div>
-        <div class="row" id="floor">
-            <br />
+        </div>
+        <div class="row" id="divided">
+            <div class="col-8">
+                <div class="row" id="floor">
+                    <br />
+                </div>
+            </div>
+            
+            <div class="col-4 bg-light text-dark" id="codePlatform" style="height: 400px;">
+                <h4>Variables</h4>
+                <br/>
+                <div id="variables"></div>
+                <br/>
+                <h4>Code</h4>
+                <br/>
+                <div id="code"></div>
+            </div>
         </div>
 
-
     </section>
+   
     <script src="./js/anime/anime.min.js"></script>
     <script>
         anime({
@@ -149,11 +175,12 @@
         var size = 0;
         function generateRandomArray(event) {
             sizeField = document.getElementById('sizeField');
-            size = (sizeField.value)?sizeField.value:Math.floor(Math.random() * 21);
-            size = (size>20)?20:size;
+            let variables = document.getElementById('variables');
+            let code = document.getElementById('code');
+            size = (sizeField.value) ? sizeField.value : Math.floor(Math.random() * 21);
+            size = (size > 20) ? 20 : size;
             document.getElementById('floor')
                 .innerHTML = '<br/>';
-            var size = Math.floor(Math.random() * 21);
             for (let i = 0; i < size; i++) {
                 var num = Math.floor(Math.random() * 101);
                 document.getElementById('floor')
@@ -165,14 +192,18 @@
                 addToArray(index);
                 index++
             }
+            variables.innerHTML = 'index = '+ index +'<br/>size = '+ size
+            code.innerHTML = 'for(int i = 0; i&lt;size; i++)<br/>{<br/>&nbsp;&nbsp;&nbsp;arr[i] = num;<br/>}'
             event.preventDefault();
         }
         function onAddListner(event) {
-
+            let variables = document.getElementById('variables');
+            let code = document.getElementById('code');
+            console.log(size);
             var valueField = document.getElementById('valueField');
             var indexField = document.getElementById('indexField');
             var pointer = indexField.value ? indexField.value : index;
-            
+
             if (pointer >= size) {
                 var myobj = document.getElementById('errorInfo');
                 //myobj.removeChild(myobj.childNodes);
@@ -185,18 +216,22 @@
                 myobj.innerHTML = ' ' + number + '<br/> </small> ['
                     + pointer + ']</small>';
                 addToArray(index);
-                if(pointer== index){
+                if (pointer == index) {
                     index++;
                 }
-            
+                variables.innerHTML = 'index = '+ pointer +'<br/>size = '+ size
+                code.innerHTML = 'arr[index] = '+ number +' ;<br/>'
+
             }
             event.preventDefault();
 
 
         }
         function onRemoveListner(event) {
+            let variables = document.getElementById('variables');
+            let code = document.getElementById('code');
             var indexField = document.getElementById('indexField');
-            var num = indexField.value ? indexField.value : index-1;
+            var num = indexField.value ? indexField.value : index - 1;
             if (num <= 0) {
                 var myobj = document.getElementById('errorInfo');
                 //myobj.removeChild(myobj.childNodes);
@@ -207,11 +242,14 @@
                 var myobj = document.getElementById(id);
                 myobj.innerHTML = 'Null<br/> </small> ['
                     + num + ']</small>';
-                if(num==index)
-                index--;
+                if (num == index - 1)
+                    index--;
+                variables.innerHTML = 'index = '+ num +'<br/>size = '+ size
+                code.innerHTML = 'arr[index] = null ;<br/>'
             }
             event.preventDefault();
         }
+        $('#example').tooltip()
     </script>
 
 </body>

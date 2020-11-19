@@ -13,8 +13,11 @@ import store from './store';
 //import { getBranches } from './actions/branchActions';
 import { loadUser } from './actions/authActions';
 import AppAboutPage from './components/AppAboutPage';
-import ListSubject from './components/ListSubject';
 import TopicPage from './components/TopicPage';
+import ListTopics from './components/ListTopics';
+import ListSubjects from './components/ListSubjects';
+import AddSimPage from './components/AddSimPage';
+import FileUploadPage from './components/FileUploadPage';
 
 class App extends Component {
   componentDidMount() {
@@ -31,8 +34,11 @@ class App extends Component {
               <Switch>
                 <Route path="/" exact component={AppHomepage} />
                 <Route path="/about" exact component={AppAboutPage} />
-                <Route path="/branch/:branch/:topic" component={TopicPage} />
-                <Route path="/branch/:branch" component={ListSubject} />
+                <Route path="/addSim" exact component={AddSimPage} />
+                <Route path="/addSim/:simulation" exact component={FileUploadPage} />
+                <Route path="/branch/:branch/:subject/:topic" component={TopicPage} />
+                <Route path="/branch/:branch/:subject" component={ListTopics} />
+                <Route path="/branch/:branch" component={ListSubjects} />
               </Switch>
             </div>
           </div>

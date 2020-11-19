@@ -14,7 +14,7 @@ function ListCardComponent(props) {
                             <p className="card-text"><small class="text-muted">{props.topic.introduction.substring(0,300)}...</small></p>
                         </div>
                         <div className="" style = {{padding:20}}>
-                        <Link to={`/branch/${props.topic.branch}/${props.topic.simulation}`} className="btn btn-primary">Start</Link>
+                        <Link to={`/branch/${props.topic.branch}/${props.topic.subject}/${props.topic.simulation}`} className="btn btn-primary">Start</Link>
                         </div>
                     </div>
                 </div>

@@ -33,7 +33,7 @@ export const addSim = ({ simulation, name, branch, subject, introduction, theory
             'Content-Type': 'application/json'
         }
     };
-
+    //console.log(selectedFile);
     // request body
     const body = JSON.stringify({ simulation, name, branch, subject, introduction, theory, objective, procedure });
     // request

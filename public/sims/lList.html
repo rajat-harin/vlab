@@ -54,7 +54,7 @@
 <body>
     <section class="playground">
         <h1>
-            Array: Intro
+            Linked List: Intro
         </h1>
 
         <br>
@@ -69,12 +69,17 @@
                         </div>
                     </div>
                     <div class="col">
-                        <button type="button" class="btn btn-success form-control-sm" onclick="onAddLastListner(event)">
+                        <button type="button" class="btn btn-success form-control-sm" 
+                            data-toggle="tooltip"
+                            title="Add element to the End of List! add random number if not specified in adjacent input box"
+                            onclick="onAddLastListner(event)">
                             Add at Last
                         </button>
                     </div>
                     <div class="col">
                         <button type="button" class="btn btn-success form-control-sm"
+                            data-toggle="tooltip"
+                            title="Add element to the front of List! add random number if not specified in adjacent input box"
                             onclick="onAddFrontListner(event)"> Add at Front
                         </button>
                     </div>
@@ -89,11 +94,15 @@
                     </div> -->
                     <div class="col">
                         <button type="button" class="btn btn-danger form-control-sm"
+                            data-toggle="tooltip"
+                            title="Removes element from the Front List."
                             onclick="onRemoveFrontListner(event)">
                             Delete From Front</button>
                     </div>
                     <div class="col">
                         <button type="button" class="btn btn-danger form-control-sm"
+                            data-toggle="tooltip"
+                            title="Removes element from the End List."
                             onclick="onRemoveLastListner(event)">
                             Delete From End</button>
                     </div>
@@ -101,6 +110,8 @@
                 <div class="row">
                     <div class="col">
                         <button type="button" class="btn btn-success form-control-sm"
+                            data-toggle="tooltip"
+                            title="Generates List with random element with the size speciefied in box. Takes random size if not specified in adjacent input box."
                             onclick="generateRandomArray(event)">
                             Generate Random Array
                         </button>
@@ -111,10 +122,24 @@
                     </div>
             </form>
         </div>
-        <div class="row" id="floor">
-            <br />
-
+    </div>
+    <div class="row" id="divided">
+        <div class="col-8">
+            <div class="row" id="floor">
+                <br />
+            </div>
         </div>
+        
+        <div class="col-4 bg-light text-dark" id="codePlatform" style="height: 400px;">
+            <h4>Variables</h4>
+            <br/>
+            <div id="variables"></div>
+            <br/>
+            <h4>Code</h4>
+            <br/>
+            <div id="code"></div>
+        </div>
+    </div>
         <!-- <div id="in0" class="cell column">
             <div>23</div><div style="color: red;">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;--------&#62;</div>
         </div> -->
@@ -148,6 +173,8 @@
         var end = 100;
         var front = 100;
         function generateRandomArray(event) {
+            let variables = document.getElementById('variables');
+            let code = document.getElementById('code');
             document.getElementById('floor')
                 .innerHTML = '<br/>';
             var size = Math.floor(Math.random() * 21);
@@ -162,6 +189,8 @@
                 end++
                 addToArray(end);
             }
+            //variables.innerHTML = 'front = '+ front +'<br/>back = '+ back+'<br/>size = '+ size
+            code.innerHTML = 'for(int i = 0; i&lt;size; i++)<br/>{<br/>&nbsp;&nbsp;&nbsp;arr[i] = num;<br/>}'
             event.preventDefault();
         }
 
@@ -293,6 +322,7 @@
             }
             event.preventDefault();
         }
+        $('#example').tooltip()
     </script>
 
 </body>

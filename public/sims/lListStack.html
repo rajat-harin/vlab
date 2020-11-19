@@ -54,7 +54,7 @@
 <body>
     <section class="playground">
         <h1>
-            Array: Intro
+            Stack: Linked List implementation
         </h1>
 
         <br>
@@ -69,7 +69,10 @@
                         </div>
                     </div>
                     <div class="col">
-                        <button type="button" class="btn btn-success form-control-sm" onclick="onAddLastListner(event)">
+                        <button type="button" class="btn btn-success form-control-sm"
+                            data-toggle="tooltip"
+                            title="Add element to the End of List! add random number if not specified in adjacent input box"
+                            onclick="onAddLastListner(event)">
                             Push
                         </button>
                     </div>
@@ -84,6 +87,8 @@
                     </div> -->
                     <div class="col">
                         <button type="button" class="btn btn-danger form-control-sm"
+                            data-toggle="tooltip"
+                            title="Removes element from the End List."
                             onclick="onRemoveLastListner(event)">
                             Pop</button>
                     </div>
@@ -91,6 +96,8 @@
                 <div class="row">
                     <div class="col">
                         <button type="button" class="btn btn-success form-control-sm"
+                            data-toggle="tooltip"
+                            title="Generates List with random element with the size speciefied in box. Takes random size if not specified in adjacent input box."
                             onclick="generateRandomArray(event)">
                             Generate Random Stack
                         </button>

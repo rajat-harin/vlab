@@ -15,7 +15,6 @@ import LoginModal from './Auth/LoginModal';
 import Logout from './Auth/Logout';
 import RegisterModal from './Auth/RegisterModal';
 import { NavLink as RRNavLink } from 'react-router-dom';
-import AddSimModal from './AddSimModal';
 
 class AppNavbar extends Component {
     state = {
@@ -60,8 +59,8 @@ class AppNavbar extends Component {
         const adminLinks = (
             <Fragment>
                 <NavItem>
-                    <AddSimModal />
-                </NavItem>
+                                <NavLink to="/addSim" className="anchors" tag={RRNavLink}>Add Simulation</NavLink>
+                            </NavItem>
             </Fragment>
         )
         return (

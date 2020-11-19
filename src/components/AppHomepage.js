@@ -9,7 +9,7 @@ class AppHomepage extends Component {
         auth: PropTypes.object.isRequired
     }
     render() {
-        const { user, isAuthenticated } = this.props.auth;
+        const { isAuthenticated } = this.props.auth;
         const authUser = (
             <Fragment>
                 <h1 style={{margin : "30px 0px"}}>
@@ -43,7 +43,7 @@ class AppHomepage extends Component {
                         <h1>We are here<br />to help...</h1>
                     </div>
                     <div className="col-md-6 " style={{top:"10%"}}>
-                    <img src="/images/cover.png" style={{width:"70%"}}></img>
+                    <img src="/images/cover.png" alt="cover" style={{width:"70%"}}></img>
                     </div>
                     </div>
                 </section>
