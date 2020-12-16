@@ -1,22 +1,47 @@
 var multer = require('multer')
 const router = require('express').Router();
 const unzipper = require('unzipper');
+var AdmZip = require('adm-zip');
 var fs = require('fs');
+const path = require('path'); 
 
-const unZip = ( file )=>{
-  fs.createReadStream(file.destination + "/" + file.filename)
-  .pipe(unzipper.Parse())
-  .on('entry', function (entry) {
-    const newFileName = file.originalname.split('.')[0];
-    const fileName = entry.path;
-    const type = entry.type; // 'Directory' or 'File'
-    const size = entry.vars.uncompressedSize; // There is also compressedSize;
-    if (fileName === newFileName) {
-      entry.pipe(fs.createWriteStream(file.destination));
-    } else {
-      entry.autodrain();
+// const unZip = ( file )=>{
+//   fs.createReadStream(file.destination + "/" + file.filename)
+//   .pipe(unzipper.Parse())
+//   .on('entry', function (entry) {
+//     const newFileName = file.originalname.split('.')[0];
+//     const fileName = entry.path;
+//     const type = entry.type; // 'Directory' or 'File'
+//     const size = entry.vars.uncompressedSize; // There is also compressedSize;
+//     if (fileName === newFileName) {
+//       entry.pipe(fs.createWriteStream(file.destination));
+//     } else {
+//       entry.autodrain();
+//     }
+//   });
+// }
+
+const unZip = ( file, newFileName )=>{
+  // reading archives
+  var zip = new AdmZip(path.join(file.destination,file.filename));
+  var dir = path.join('./client/public/sims', newFileName)
+  if(!fs.existsSync(dir))
+  {
+    fs.mkdir(dir, (err) => { 
+    if (err) { 
+        return console.error(err); 
+    } 
+    console.log('Directory created successfully!'); 
+  });
+} 
+  zip.extractAllTo(/*target path*/dir, /*overwrite*/true);
+  fs.unlink(path.join(file.destination,file.filename), (err) => {
+    if (err) {
+      console.error(err)
+      return
     }
   });
+  return 
 }
 
 
@@ -31,7 +56,7 @@ var storage = multer.diskStorage({
 
 var upload = multer({ storage: storage }).single('file')
 
-router.post('/', (req, res) => {
+router.post('/:simName', (req, res) => {
     upload(req, res, function (err) {
         if (err instanceof multer.MulterError) {
           console.log(err);
@@ -40,9 +65,9 @@ router.post('/', (req, res) => {
           console.log(err);
             return res.status(500).json({err})
         }
-        // else {
-        //   unZip(req.file);
-        // }
+        else {
+          unZip(req.file, req.params.simName);
+        }
         
    return res.status(200).json({
      fileName: req.originalname,

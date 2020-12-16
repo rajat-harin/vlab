@@ -27,6 +27,7 @@ class FileUploadPage extends Component {
 
     onChange = e => {
         var files = e.target.files[0]
+
         if (this.checkMimeType(e)) {
             // if return true allow to setState
             this.setState({
@@ -41,7 +42,7 @@ class FileUploadPage extends Component {
         //define message container
         let err = ''
         // list allow mime type
-        const types = ['application/zip','application/x-7z-compressed','application/x-zip-compressed']
+        const types = ['application/zip','application/x-7z-compressed','application/x-zip-compressed','application/pdf']
         // loop access array
         for (var x = 0; x < files.length; x++) {
             // compare file type find doesn't matach
@@ -66,7 +67,8 @@ class FileUploadPage extends Component {
         e.preventDefault();
         const data = new FormData()
         data.append('file', this.state.selectedFile)
-        Axios.post("http://localhost:5000/upload", data, {
+        console.log(this.state.selectedFile);
+        Axios.post(`http://localhost:5000/upload/${this.props.match.params.simulation}`, data, {
             onUploadProgress: ProgressEvent => {
                 this.setState({
                     loaded: (ProgressEvent.loaded / ProgressEvent.total * 100),
@@ -99,17 +101,13 @@ class FileUploadPage extends Component {
                 <div>
                     
                     <div className="card" style={{ padding: "50px" }}>
-                        {this.toggle()}
                     {(this.state.msg) ?
                         (
                             (this.state.isSuccess) ?
                                 (
-                                    <Fragment>
                                     <Alert color='success'>
                                         { this.state.msg}
                                     </Alert>
-                                    
-                                    </Fragment>
                                 ) :
                                 (<Alert color='danger'>
                                     {this.state.msg}
@@ -136,13 +134,8 @@ class FileUploadPage extends Component {
                             <br />
                             <Progress max="100" color="success" value={this.state.loaded} >{Math.round(this.state.loaded,2) }%</Progress>
                             <br />
-                            {
-                                (this.state.isSuccess)
-                                ?
-                                <Button color='success' style={{ float: "right", marginLeft:"20px", marginRight:"20px" }}>Go to Homepage</Button>
-                                :
+                               
                                 <Button color='dark' style={{ float: "right" }}>Upload</Button>
-                            }
                                                         
                         </Form>
                     </div>
