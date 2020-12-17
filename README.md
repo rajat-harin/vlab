@@ -3,7 +3,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 ## Available Scripts
 
 In the project directory, you can run:
-### `npm run backend-install`
+### `npm run client-install`
 
 installs backend packages from same directory.<br />
 

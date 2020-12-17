@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 
 //import logo from './logo.svg';
+
 import './App.css';
-import 'bootstrap/dist/css/bootstrap.min.css'
 import AppNavbar from './components/AppNavbar';
 import AppHomepage from './components/AppHomepage'
 import { Provider } from 'react-redux';
