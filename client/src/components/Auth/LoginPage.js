@@ -1,11 +1,5 @@
-// This page can be deleted
-
 import React, { Component } from 'react';
 import {
-    NavLink,
-    Modal,
-    ModalBody,
-    ModalHeader,
     Label,
     Input,
     Button,
@@ -17,9 +11,10 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { login } from '../../actions/authActions';
 import { clearErrors } from '../../actions/errorActions';
-class LoginModal extends Component {
+import { Link, Redirect } from 'react-router-dom';
+class LoginPage extends Component {
     state = {
-        modal: false,
+        redirect: false,
         email: '',
         password: '',
         msg: null
@@ -30,6 +25,15 @@ class LoginModal extends Component {
         error: PropTypes.object.isRequired,
         login: PropTypes.func.isRequired,
         clearErrors: PropTypes.func.isRequired
+    }
+    componentDidMount() {
+        const { error, isAuthenticated } = this.props;
+        if (isAuthenticated) {
+            this.setState({
+                redirect: true
+            });
+        }
+
     }
 
     componentDidUpdate(prevProps) {
@@ -43,9 +47,11 @@ class LoginModal extends Component {
                 this.setState({ msg: null })
             }
         }
-        if (this.state.modal) {
+        if (!this.state.redirect) {
             if (isAuthenticated) {
-                this.toggle();
+                this.setState({
+                    redirect: true
+                });
             }
         }
     }
@@ -54,7 +60,7 @@ class LoginModal extends Component {
         //clear errors
         this.props.clearErrors();
         this.setState({
-            modal: !this.state.modal
+            redirect: !this.state.redirect
         });
     }
 
@@ -74,17 +80,36 @@ class LoginModal extends Component {
 
 
 
-        // this.toggle();
+        //this.toggle();
     }
     render() {
+        if (this.state.redirect) {
+            return (
+                <Redirect
+                    to="/"
+                />
+            );
+        }
         return (
-            <div>
-                <NavLink onClick={this.toggle} href="#">
-                    Login
-                </NavLink>
-                <Modal isOpen={this.state.modal} toggle={this.toggle}>
-                    <ModalHeader toggle={this.toggle}>Login</ModalHeader>
-                    <ModalBody>
+            <div className="container" style={{
+                height: "90vh"
+            }}>
+                <div style={{
+
+                    position: "absolute",
+                    left: "50%",
+                    top: "50%",
+                    transform: "translate(-50%, -50%)",
+                }}>
+                    <img src="/logo.png" width="60" height="60" className="d-inline-block align-top" alt="" loading="lazy" />
+                    <h1>
+                        Sign in to VLab
+                    </h1>
+                    <br></br>
+                    <div className="card text-left" style={{
+                        width: "480px",
+                        padding: "25px",
+                    }}>
                         {this.state.msg ?
                             (
                                 <Alert color='danger'>
@@ -94,29 +119,47 @@ class LoginModal extends Component {
                         }
                         <Form onSubmit={this.onSubmit}>
                             <FormGroup>
-                                <Label for="email">Email</Label>
+                                <Label for="email"> Email</Label>
                                 <Input
                                     type="email"
                                     name="email"
                                     id="email"
                                     placeholder="Email"
                                     onChange={this.onChange}
+                                    required
                                 />
                             </FormGroup>
                             <FormGroup>
-                                <Label for="password">Password</Label>
+                                <Label for="password"> Password</Label>
                                 <Input
                                     type="password"
                                     name="password"
                                     id="password"
                                     placeholder="Password"
                                     onChange={this.onChange}
+                                    required
                                 />
+                                <small>
+                                    <strong>
+                                        <Link to="/"> Forgot password?</Link>
+                                    </strong>
+                                </small>
                             </FormGroup>
-                            <Button color='dark'>Login</Button>
+
+                            <br />
+                            <Button color='dark' style={{
+                                width: "100%"
+                            }}>Login</Button>
                         </Form>
-                    </ModalBody>
-                </Modal>
+                    </div>
+                    <br />
+                    <div class="card">
+                        <div class="card-body">
+                            New To Vlab?
+                                <Link to="/register"> Create an account</Link>
+                        </div>
+                    </div>
+                </div>
             </div>
         );
     }
@@ -131,4 +174,4 @@ const mapStateToProps = state => ({
 export default connect(
     mapStateToProps,
     { login, clearErrors }
-)(LoginModal);
+)(LoginPage);

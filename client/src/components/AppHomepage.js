@@ -140,7 +140,7 @@ class AppHomepage extends Component {
                                         <p className="ftr_head"><u>Get In Touch With Us</u></p>
                                         <ul className="ftr_lst">
                                             <li></li>
-                                            <li><i className="fa fa-envelope ftr_fa_icn"></i>&nbsp;&nbsp;support@xyz.net</li>
+                                            <li><i className="fa fa-envelope ftr_fa_icn"></i>&nbsp;&nbsp;info.vlab.ghrce@gmail.com</li>
                                             <li><i className="fa fa-phone ftr_fa_icn"></i>&nbsp;&nbsp; Phone(L) - XXX-XXXXXXX</li>
                                             <li>
                                                 <i className="fa fa-map-marker ftr_fa_icn"></i>

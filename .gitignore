@@ -8,6 +8,7 @@
 
 # testing
 /client/coverage
+/client/dumper
 /.env
 
 # production
@@ -19,7 +20,7 @@
 /client.env.development.local
 /client.env.test.local
 /client.env.production.local
-/dump.html
+/dump.txt
 
 /client/npm-debug.log*
 /client/yarn-debug.log*

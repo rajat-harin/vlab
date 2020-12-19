@@ -49,11 +49,14 @@ class AppNavbar extends Component {
         const guestLinks = (
             <Fragment>
                 <NavItem>
-                    <RegisterModal />
+                    <NavLink to="/register" className="anchors" tag={RRNavLink}>Register</NavLink>
                 </NavItem>
                 <NavItem>
-                    <LoginModal />
+                    <NavLink to="/login" className="anchors" tag={RRNavLink}> Login </NavLink>
                 </NavItem>
+                {/* <NavItem>
+                    <RegisterModal />
+                </NavItem> */}
             </Fragment>
         )
         const adminLinks = (

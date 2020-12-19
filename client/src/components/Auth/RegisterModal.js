@@ -15,6 +15,11 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { register } from '../../actions/authActions';
 import { clearErrors } from '../../actions/errorActions';
+
+import { notify } from 'react-notify-toast'
+import Spinner from '../Spinner'
+import { Link } from 'react-router-dom';
+import { Fragment } from 'react';
 class RegisterModal extends Component {
     state = {
         modal: false,
@@ -22,18 +27,22 @@ class RegisterModal extends Component {
         email: '',
         password: '',
         isAdmin: false,
-        msg: null
+        sendingEmail: false,
+        msg: null,
+        successMassage: null
     }
 
     static propTypes = {
         isAuthenticated: PropTypes.bool,
+        isRegisterSuccess: PropTypes.bool,
         error: PropTypes.object.isRequired,
         register: PropTypes.func.isRequired,
-        clearErrors: PropTypes.func.isRequired
+        clearErrors: PropTypes.func.isRequired,
+        message: PropTypes.string
     }
 
     componentDidUpdate(prevProps) {
-        const { error, isAuthenticated } = this.props;
+        const { error, isAuthenticated, isRegisterSuccess, message } = this.props;
         if (error !== prevProps.error) {
             //CHECK for register error
             if (error.id === 'REGISTER_FAIL') {
@@ -43,12 +52,13 @@ class RegisterModal extends Component {
                 this.setState({ msg: null })
             }
         }
-        if (this.state.modal) {
-            if (isAuthenticated) {
-                this.toggle();
-            }
-        }
+        if (message !== prevProps.message) {
+            this.setState({
+                successMassage: message
+            })
+        }        
     }
+
 
     toggle = () => {
         //clear errors
@@ -64,8 +74,8 @@ class RegisterModal extends Component {
 
     onSubmit = e => {
         e.preventDefault();
-
-        const { username, email, password , isAdmin} = this.state;
+        this.setState({ sendingEmail: true })
+        const { username, email, password, isAdmin } = this.state;
         const newUser = {
             username,
             email,
@@ -78,13 +88,29 @@ class RegisterModal extends Component {
     }
     render() {
         return (
-            <div>
-                <NavLink onClick={this.toggle} href="#">
-                    Register
-                </NavLink>
-                <Modal isOpen={this.state.modal} toggle={this.toggle}>
-                    <ModalHeader toggle={this.toggle}>Register</ModalHeader>
-                    <ModalBody>
+            <div className="container" style={{
+                height: "90vh"
+            }}>
+                <br />
+                <br />
+                JOIN VLAB
+                <br />
+
+                <h1>Create your account</h1>
+                <br />
+                <br />
+                <div style={{
+
+                    position: "absolute",
+                    left: "50%",
+                    top: "50%",
+                    transform: "translate(-50%, -50%)",
+                }}>
+
+                    <div className="card text-left" style={{
+                        width: "480px",
+                        padding: "25px",
+                    }}>
                         {this.state.msg ?
                             (
                                 <Alert color='danger'>
@@ -92,15 +118,23 @@ class RegisterModal extends Component {
                                 </Alert>
                             ) : null
                         }
+                        {this.state.successMassage ?
+                            (
+                                <Alert color='success'>
+                                    { this.state.successMassage}
+                                </Alert>
+                            ) : null
+                        }
                         <Form onSubmit={this.onSubmit}>
                             <FormGroup>
-                                <Label for="username">Username</Label>
+                                <Label for="username">Name</Label>
                                 <Input
                                     type="text"
                                     name="username"
                                     id="username"
-                                    placeholder="Username"
+                                    placeholder="Name"
                                     onChange={this.onChange}
+                                    required
                                 />
                             </FormGroup>
                             <FormGroup>
@@ -111,6 +145,7 @@ class RegisterModal extends Component {
                                     id="email"
                                     placeholder="Email"
                                     onChange={this.onChange}
+                                    required
                                 />
                             </FormGroup>
                             <FormGroup>
@@ -121,12 +156,32 @@ class RegisterModal extends Component {
                                     id="password"
                                     placeholder="Password"
                                     onChange={this.onChange}
+                                    required
                                 />
                             </FormGroup>
-                            <Button color='dark'>Register</Button>
+                            {this.state.successMassage === 'Your email was already confirmed' ?
+                                        (
+                                            <Link to="/login" className="btn btn-dark active" role="button" aria-pressed="true">Login</Link>
+                                        ) : 
+                            <Button color='dark' disabled={this.state.sendingEmail}>
+                                {this.state.sendingEmail
+                                    ?
+                                    <Fragment> <span className="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                                    &nbsp;&nbsp;Loading...
+                                    </Fragment>
+                                    : 
+                                    "Register"
+                                    
+                                }
+                            </Button>
+                            }
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            Already have an account?
+                                <Link to="/login"> Sign in</Link>
+
                         </Form>
-                    </ModalBody>
-                </Modal>
+                    </div>
+                </div>
             </div>
         );
     }
@@ -136,6 +191,8 @@ class RegisterModal extends Component {
 const mapStateToProps = state => ({
     isAuthenticated: state.auth.isAuthenticated,
     isAdmin: state.auth.isAdmin,
+    isRegisterSuccess: state.auth.isRegisterSuccess,
+    message: state.auth.msg,
     error: state.error
 })
 
