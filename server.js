@@ -2,7 +2,8 @@
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
-const path = require('path')
+const path = require('path');
+const compression = require('compression');
 
 
 require('dotenv').config();
@@ -13,9 +14,21 @@ const app = express();
 const port = process.env.PORT || 5000;
 
 
+//helper fx
+const shouldCompress = (req, res) => {
+    if (req.headers['x-no-compression']) {
+      // don't compress responses if this request header is present
+      return false;
+    }
+  
+    // fallback to standard compression
+    return compression.filter(req, res);
+};
+
 //middlewares
 app.use(cors());
 app.use(express.json());
+app.use(compression())
 //app.use(express.urlencoded({extended: false}));
 
 //datebase
