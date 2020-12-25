@@ -11,6 +11,10 @@
 /client/dumper
 /.env
 
+#scripts
+/clientScript.bat
+/serverScript.bat
+/startScript.bat
 # production
 /client/build
 

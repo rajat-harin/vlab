@@ -5,22 +5,6 @@ var AdmZip = require('adm-zip');
 var fs = require('fs');
 const path = require('path'); 
 
-// const unZip = ( file )=>{
-//   fs.createReadStream(file.destination + "/" + file.filename)
-//   .pipe(unzipper.Parse())
-//   .on('entry', function (entry) {
-//     const newFileName = file.originalname.split('.')[0];
-//     const fileName = entry.path;
-//     const type = entry.type; // 'Directory' or 'File'
-//     const size = entry.vars.uncompressedSize; // There is also compressedSize;
-//     if (fileName === newFileName) {
-//       entry.pipe(fs.createWriteStream(file.destination));
-//     } else {
-//       entry.autodrain();
-//     }
-//   });
-// }
-
 const unZip = ( file, newFileName )=>{
   // reading archives
   var zip = new AdmZip(path.join(file.destination,file.filename));

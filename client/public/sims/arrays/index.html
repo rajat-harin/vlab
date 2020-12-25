@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./bootstrap-4.5.2-dist/css/bootstrap.css">
+    <link rel="stylesheet" href="../bootstrap-4.5.2-dist/css/bootstrap.css">
     <title>GHRCE vLab</title>
 </head>
 <style>
@@ -25,9 +25,6 @@
     }
 
     section {
-        border-style: solid;
-        border-color: black;
-        border-width: 1px;
         height: 90vh;
     }
 
@@ -52,12 +49,16 @@
     .navKeys {
         margin-left: 20px;
     }
+
+    #code {
+        border: #fff;
+    }
 </style>
 
 <body>
     <section class="playground">
         <h1>
-            Stack: Array Implementation
+            Array: Introduction
         </h1>
 
         <br>
@@ -71,35 +72,43 @@
                                 placeholder="element">
                         </div>
                     </div>
-                    <div class="col col-sm-2">
+                    <div class="col">
                         <button type="button" class="btn btn-success form-control-sm" data-toggle="tooltip"
-                        title="Push elemnt to the Stack! add random number if not specified in adjacent input box"
-                        onclick="onAddListner(event)">
-                            Push
-                        </button>
-                    </div>
-                    <div class="col col-sm-2">
-                        <button type="button" class="btn btn-danger form-control-sm" data-toggle="tooltip"
-                        title="Pops element from the Stack(element is removed from the top of the stack)"
-                        onclick="onRemoveListner(event)">
-                            Pop
+                            title="Add elemnt to the array! add random number if not specified in adjacent input box"
+                            onclick="onAddListner(event)"> Add
                         </button>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col">
                         <div class="form-group row">
-                            <label for="sizeField" class="col-sm-4 col-form-label">Size of Stack:</label>
-                            <input type="number" class="form-control form-control-sm col-sm-6" id="sizeField"
-                                placeholder="element">
+                            <label for="indexField" class="col-sm-4 col-form-label">index of element :</label>
+                            <input type="number" class="form-control form-control-sm col-sm-6" id="indexField"
+                                placeholder="index">
                         </div>
                     </div>
                     <div class="col">
-                        <button type="button" class="btn btn-success form-control-sm" 
-                        data-toggle="tooltip"
-                            title="Generates Stack with random element with the size speciefied in box. takes random size if not specified in adjacent input box"
-                        onclick="generateStack(event)">
-                            Generate Stack
+                        <button type="button" class="btn btn-danger form-control-sm" 
+                            data-toggle="tooltip"
+                            title="Removes element from the array which index is specified in adjacent input box"
+                            onclick="onRemoveListner(event)">
+                            Remove </button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group row">
+                            <label for="sizeField" class="col-sm-4 col-form-label">Size of Array:</label>
+                            <input type="number" class="form-control form-control-sm col-sm-6" id="sizeField"
+                                placeholder="size">
+                        </div>
+                    </div>
+                    <div class="col">
+                        <button type="button" class="btn btn-success form-control-sm"
+                            data-toggle="tooltip"
+                            title="Generates Array with random element with the size speciefied in box. takes random size if not specified in adjacent input box"
+                            onclick="generateRandomArray(event)">
+                            Generate Random Array
                         </button>
                     </div>
                     <div class="col">
@@ -108,7 +117,7 @@
                     </div>
             </form>
         </div>
-    </div>
+        </div>
         <div class="row" id="divided">
             <div class="col-8">
                 <div class="row" id="floor">
@@ -127,9 +136,9 @@
             </div>
         </div>
 
-
     </section>
-    <script src="./js/anime/anime.min.js"></script>
+   
+    <script src="../js/anime/anime.min.js"></script>
     <script>
         anime({
             targets: '.cell',
@@ -161,16 +170,16 @@
         }
         var index = 0;
         var size = 0;
-        function generateStack(event) {
-            var SIZE = document.getElementById('sizeField');
+        function generateRandomArray(event) {
+            sizeField = document.getElementById('sizeField');
             let variables = document.getElementById('variables');
             let code = document.getElementById('code');
-            //let val = document.getElementById('element').value;
+            size = (sizeField.value) ? sizeField.value : Math.floor(Math.random() * 21);
+            size = (size > 20) ? 20 : size;
             document.getElementById('floor')
                 .innerHTML = '<br/>';
-            size = SIZE.value ? SIZE.value : Math.floor(Math.random() * 11);
             for (let i = 0; i < size; i++) {
-                var num = "NULL"
+                var num = Math.floor(Math.random() * 101);
                 document.getElementById('floor')
                     .innerHTML += '<div id="in'
                     + i + '"class="cell column">'
@@ -178,33 +187,39 @@
                     + i + ']</small>'
                     + '</div>';
                 addToArray(index);
+                index++
             }
             variables.innerHTML = 'index = '+ index +'<br/>size = '+ size
             code.innerHTML = 'for(int i = 0; i&lt;size; i++)<br/>{<br/>&nbsp;&nbsp;&nbsp;arr[i] = num;<br/>}'
             event.preventDefault();
         }
         function onAddListner(event) {
-            var valueField = document.getElementById('valueField');
             let variables = document.getElementById('variables');
             let code = document.getElementById('code');
-            if (index > size - 1) {
+            console.log(size);
+            var valueField = document.getElementById('valueField');
+            var indexField = document.getElementById('indexField');
+            var pointer = indexField.value ? indexField.value : index;
+
+            if (pointer >= size) {
                 var myobj = document.getElementById('errorInfo');
                 //myobj.removeChild(myobj.childNodes);
-                myobj.innerHTML = 'Stack Overfow!';
+                myobj.innerHTML = 'Maximum Arraysize reached!';
             }
             else {
                 var number = valueField.value ? valueField.value : Math.floor(Math.random() * 101);
-                var num = index;
-                console.log(index);
-                let id = 'in' + (num).toString()
+                let id = 'in' + (pointer).toString()
                 var myobj = document.getElementById(id);
                 myobj.innerHTML = ' ' + number + '<br/> </small> ['
-                    + num + ']</small>';
+                    + pointer + ']</small>';
                 addToArray(index);
-                index++;
+                if (pointer == index) {
+                    index++;
+                }
+                variables.innerHTML = 'index = '+ pointer +'<br/>size = '+ size
+                code.innerHTML = 'arr[index] = '+ number +' ;<br/>'
+
             }
-            variables.innerHTML = 'index = '+ index +'<br/>size = '+ size
-            code.innerHTML = 'arr[index] = '+ number +' ;<br/>'
             event.preventDefault();
 
 
@@ -212,23 +227,23 @@
         function onRemoveListner(event) {
             let variables = document.getElementById('variables');
             let code = document.getElementById('code');
-
-            if (index <= 0) {
+            var indexField = document.getElementById('indexField');
+            var num = indexField.value ? indexField.value : index - 1;
+            if (num <= 0) {
                 var myobj = document.getElementById('errorInfo');
                 //myobj.removeChild(myobj.childNodes);
-                myobj.innerHTML = 'Stack Underflow!';
+                myobj.innerHTML = 'Array Is Empty!';
             }
             else {
-                var num = index;
-                let id = 'in' + (num - 1).toString()
+                let id = 'in' + (num).toString()
                 var myobj = document.getElementById(id);
                 myobj.innerHTML = 'Null<br/> </small> ['
                     + num + ']</small>';
-                index--;
+                if (num == index - 1)
+                    index--;
                 variables.innerHTML = 'index = '+ num +'<br/>size = '+ size
                 code.innerHTML = 'arr[index] = null ;<br/>'
             }
-            
             event.preventDefault();
         }
         $('#example').tooltip()

@@ -61,6 +61,7 @@ router.post('/', (req, res) => {
             if (topic) {
                 return res.status(400).json({ msg: 'Topic Already Exists!' });
             }
+            let newSim = simulation.replace(/\s/g,'') + Date.now().toString();
             const newTopic = new Topic({
                 name,
                 branch,
@@ -69,7 +70,7 @@ router.post('/', (req, res) => {
                 theory,
                 objective,
                 procedure,
-                simulation
+                simulation: newSim
             });
 
             newTopic.save()
@@ -80,14 +81,14 @@ router.post('/', (req, res) => {
                 }
                 )
                 .catch((err) => {
-                    res.status(400).json({
+                    res.status(500).json({
                         msg: 'Error!',
                         err: JSON.stringify(err)
                     })
                 });
         })
         .catch((err) => {
-            res.status(400).json({
+            res.status(500).json({
                 msg: 'Error!',
                 err: JSON.stringify(err)
             })

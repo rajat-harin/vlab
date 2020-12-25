@@ -7,7 +7,11 @@ import {
     LOGIN_SUCCESS,
     LOGOUT_SUCCESS,
     REGISTER_FAIL,
-    REGISTER_SUCCESS
+    REGISTER_SUCCESS,
+    FORGOT_SUCCESS,
+    FORGOT_FAIL,
+    FORGOTRESET_SUCCESS,
+    FORGOTRESET_FAIL
 } from '../actions/types';
 
 import { returnErrors } from './errorActions';
@@ -103,4 +107,53 @@ export const tokenConfig = getState => {
     }
 
     return config;
+}
+//FORGOT PASSWORD EMAIL SERVICE
+export const forgot = ({ email }) => dispatch => {
+    const config = {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    };
+
+    // request body
+    const body = JSON.stringify({ email });
+
+    // request
+    axios.post('/users/forgot', body, config)
+        .then(res => dispatch({
+            type: FORGOT_SUCCESS,
+            payload: res.data
+        }))
+        .catch(err => {
+            dispatch(returnErrors(err.response.data, err.response.status, 'FORGOT_FAIL'));
+            dispatch({
+                type: FORGOT_FAIL
+            })
+        })
+}
+
+//FORGOT PASSWORD RESET SERVICE
+export const forgotReset = ({ resetPasswordToken, password }) => dispatch => {
+    const config = {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    };
+
+    // request body
+    const body = JSON.stringify({ resetPasswordToken, password });
+
+    // request
+    axios.post('/users/forgot/reset', body, config)
+        .then(res => dispatch({
+            type: FORGOTRESET_SUCCESS,
+            payload: res.data
+        }))
+        .catch(err => {
+            dispatch(returnErrors(err.response.data, err.response.status, 'FORGOTRESET_FAIL'));
+            dispatch({
+                type: FORGOTRESET_FAIL
+            })
+        })
 }

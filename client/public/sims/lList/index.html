@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./bootstrap-4.5.2-dist/css/bootstrap.css">
+    <link rel="stylesheet" href="../bootstrap-4.5.2-dist/css/bootstrap.css">
     <title>GHRCE vLab</title>
 </head>
 <style>
@@ -22,9 +22,6 @@
     }
 
     section {
-        border-style: solid;
-        border-color: black;
-        border-width: 1px;
         height: 90vh;
     }
 
@@ -54,7 +51,7 @@
 <body>
     <section class="playground">
         <h1>
-            Queue: Linked List Implementation
+            Linked List: Intro
         </h1>
 
         <br>
@@ -73,7 +70,14 @@
                             data-toggle="tooltip"
                             title="Add element to the End of List! add random number if not specified in adjacent input box"
                             onclick="onAddLastListner(event)">
-                            Insert
+                            Add at Last
+                        </button>
+                    </div>
+                    <div class="col">
+                        <button type="button" class="btn btn-success form-control-sm"
+                            data-toggle="tooltip"
+                            title="Add element to the front of List! add random number if not specified in adjacent input box"
+                            onclick="onAddFrontListner(event)"> Add at Front
                         </button>
                     </div>
                 </div>
@@ -90,7 +94,14 @@
                             data-toggle="tooltip"
                             title="Removes element from the Front List."
                             onclick="onRemoveFrontListner(event)">
-                            Remove</button>
+                            Delete From Front</button>
+                    </div>
+                    <div class="col">
+                        <button type="button" class="btn btn-danger form-control-sm"
+                            data-toggle="tooltip"
+                            title="Removes element from the End List."
+                            onclick="onRemoveLastListner(event)">
+                            Delete From End</button>
                     </div>
                 </div>
                 <div class="row">
@@ -99,7 +110,7 @@
                             data-toggle="tooltip"
                             title="Generates List with random element with the size speciefied in box. Takes random size if not specified in adjacent input box."
                             onclick="generateRandomArray(event)">
-                            Generate Random Queue
+                            Generate Random Array
                         </button>
                     </div>
                     <div class="col">
@@ -108,16 +119,30 @@
                     </div>
             </form>
         </div>
-        <div class="row" id="floor">
-            <br />
-
+    </div>
+    <div class="row" id="divided">
+        <div class="col-8">
+            <div class="row" id="floor">
+                <br />
+            </div>
         </div>
+        
+        <div class="col-4 bg-light text-dark" id="codePlatform" style="height: 400px;">
+            <h4>Variables</h4>
+            <br/>
+            <div id="variables"></div>
+            <br/>
+            <h4>Code</h4>
+            <br/>
+            <div id="code"></div>
+        </div>
+    </div>
         <!-- <div id="in0" class="cell column">
             <div>23</div><div style="color: red;">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;--------&#62;</div>
         </div> -->
 
     </section>
-    <script src="./js/anime/anime.min.js"></script>
+    <script src="../js/anime/anime.min.js"></script>
     <script>
         anime({
             targets: '.cell',
@@ -142,9 +167,11 @@
                 easing: 'easeOutQuad'
             });
         }
-        var end = 0;
-        var front = 0;
+        var end = 100;
+        var front = 100;
         function generateRandomArray(event) {
+            let variables = document.getElementById('variables');
+            let code = document.getElementById('code');
             document.getElementById('floor')
                 .innerHTML = '<br/>';
             var size = Math.floor(Math.random() * 21);
@@ -159,15 +186,17 @@
                 end++
                 addToArray(end);
             }
+            //variables.innerHTML = 'front = '+ front +'<br/>back = '+ back+'<br/>size = '+ size
+            code.innerHTML = 'for(int i = 0; i&lt;size; i++)<br/>{<br/>&nbsp;&nbsp;&nbsp;arr[i] = num;<br/>}'
             event.preventDefault();
         }
 
         function onAddLastListner(event) {
             var valueField = document.getElementById('valueField');
-            if ((end-front)>20) {
+            if ((end - front) > 20) {
                 var myobj = document.getElementById('errorInfo');
                 //myobj.removeChild(myobj.childNodes);
-                myobj.innerHTML = 'Queue is Full!(For performance purpose! In real scenario List will only overflow if you run out of memory.)';
+                myobj.innerHTML = 'Memory Overfow!';
             }
             else {
                 var number = valueField.value ? valueField.value : Math.floor(Math.random() * 101);
@@ -180,6 +209,28 @@
                     '</div><div style="color: red;">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;--------&#62;</div></div>';;
                 addToArray(end);
                 end++;
+            }
+            event.preventDefault();
+        }
+        function onAddFrontListner(event) {
+            var valueField = document.getElementById('valueField');
+            if ((front - end) > 20) {
+                var myobj = document.getElementById('errorInfo');
+                //myobj.removeChild(myobj.childNodes);
+                myobj.innerHTML = 'Memory Overfow!';
+            }
+            else {
+                front--
+                var number = valueField.value ? valueField.value : Math.floor(Math.random() * 101);
+                let id = 'floor'
+                var myobj = document.getElementById(id);
+                myobj.innerHTML = '<div id="in' +
+                    front +
+                    '" class="cell column"><div>' +
+                    number +
+                    '</div><div style="color: red;">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;--------&#62;</div></div>' + myobj.innerHTML
+                addToArray(end);
+
             }
             event.preventDefault();
         }
@@ -196,6 +247,75 @@
                 var myobj = document.getElementById(id);
                 myobj.remove();
                 front++;
+            }
+            event.preventDefault();
+        }
+
+        function onRemoveLastListner(event) {
+
+            if (front > end) {
+                var myobj = document.getElementById('errorInfo');
+                //myobj.removeChild(myobj.childNodes);
+                myobj.innerHTML = 'List is Empty!';
+            }
+            else {
+                let id = 'in' + (end-1).toString()
+                var myobj = document.getElementById(id);
+                myobj.remove();
+                end--;
+            }
+            event.preventDefault();
+        }
+
+
+
+
+
+
+
+
+
+        function onAddListner(event) {
+
+            var valueField = document.getElementById('valueField');
+            var indexField = document.getElementById('indexField');
+            var pointer = indexField.value ? indexField.value : index;
+
+            if (pointer >= size) {
+                var myobj = document.getElementById('errorInfo');
+                //myobj.removeChild(myobj.childNodes);
+                myobj.innerHTML = 'Maximum Arraysize reached!';
+            }
+            else {
+                var number = valueField.value ? valueField.value : Math.floor(Math.random() * 101);
+                let id = 'in' + (pointer).toString()
+                var myobj = document.getElementById(id);
+                myobj.innerHTML = ' ' + number + '<br/> </small> ['
+                    + pointer + ']</small>';
+                addToArray(index);
+                if (pointer == index) {
+                    index++;
+                }
+
+            }
+            event.preventDefault();
+
+        }
+        function onRemoveListner(event) {
+            var indexField = document.getElementById('indexField');
+            var num = indexField.value ? indexField.value : index - 1;
+            if (num <= 0) {
+                var myobj = document.getElementById('errorInfo');
+                //myobj.removeChild(myobj.childNodes);
+                myobj.innerHTML = 'Array Is Empty!';
+            }
+            else {
+                let id = 'in' + (num).toString()
+                var myobj = document.getElementById(id);
+                myobj.innerHTML = 'Null<br/> </small> ['
+                    + num + ']</small>';
+                if (num == index)
+                    index--;
             }
             event.preventDefault();
         }

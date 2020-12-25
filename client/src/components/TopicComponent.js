@@ -62,7 +62,7 @@ const TopicComponent = ({topic}) => {
                         (option === "simulation")
                         ? 
                         (<Fragment>
-                            <iframe src={`/sims/${topic.simulation}.html`} title="simulation" style={{width: "100%", height:"700px"}}></iframe>
+                            <iframe src={`/sims/${topic.simulation}/index.html`} title="simulation" style={{width: "100%", height:"700px"}}></iframe>
                         </Fragment>)
                         :
                         (<Fragment></Fragment>)

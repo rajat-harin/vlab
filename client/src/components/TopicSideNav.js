@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { useRouteMatch } from 'react-router-dom';
+import { Redirect, useRouteMatch } from 'react-router-dom';
 import { Nav, NavItem, NavLink } from 'reactstrap';
 
 
-function TopicSideNav() {
+function TopicSideNav({match}) {
     let { url } = useRouteMatch();
+    let tabName = '';
 
     useEffect(() => {
         fetchItems();
@@ -40,15 +41,32 @@ function TopicSideNav() {
             }
         ]
         setItems(menu);
+        console.log(match);
+        //tabName = String(match.params.topic)
     }
 
     return (
         <div>
+            <br/>
             <Nav tabs>
+                {
+                    console.log(match)
+                }
                 {
                     items.map(item => (
                         <NavItem>
-                            <NavLink href={`${url}${item.path}`} >{item.title.toUpperCase()}</NavLink>
+                            <NavLink
+                            active = {
+                                tabName === item.title.toLowerCase() 
+                                ?
+                                'true'
+                                :
+                                'false'
+                            }
+                            href={`${url}${item.path}`} 
+                            >
+                                {item.title.toUpperCase()}
+                            </NavLink>
                         </NavItem>
                     ))
                 }

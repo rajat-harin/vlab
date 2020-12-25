@@ -9,59 +9,59 @@ import {
 
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { login } from '../../actions/authActions';
+import { forgotReset } from '../../actions/authActions';
 import { clearErrors } from '../../actions/errorActions';
-import { Link, Redirect } from 'react-router-dom';
-class LoginPage extends Component {
+import { Fragment } from 'react';
+
+class ForgotPasswordPage extends Component {
     state = {
-        redirect: false,
-        email: '',
+        sub: false,
         password: '',
-        msg: null
+        cpassword: '',
+        msg: null,
+        isForgotSuccess: false,
+        resetPasswordToken: null,
+        successMassage: null
     }
 
     static propTypes = {
-        isAuthenticated: PropTypes.bool,
         error: PropTypes.object.isRequired,
-        login: PropTypes.func.isRequired,
-        clearErrors: PropTypes.func.isRequired
+        clearErrors: PropTypes.func.isRequired,
+        forgot: PropTypes.func.isRequired,
+        isForgotSuccess: PropTypes.bool.isRequired,
+        message: PropTypes.string
     }
     componentDidMount() {
-        const { error, isAuthenticated } = this.props;
-        if (isAuthenticated) {
+        const { error } = this.props;
+        const { token } = this.props.match.params
+
+        if (!this.state.passwordToken) {
             this.setState({
-                redirect: true
+                resetPasswordToken: token
             });
         }
 
     }
 
     componentDidUpdate(prevProps) {
-        const { error, isAuthenticated } = this.props;
+        const { error, isForgotSuccess, message } = this.props;
         if (error !== prevProps.error) {
             //CHECK for register error
-            if (error.id === 'LOGIN_FAIL') {
+            if (error.id === 'FORGOTRESET_FAIL') {
                 this.setState({ msg: error.msg.msg })
             }
             else {
                 this.setState({ msg: null })
             }
         }
-        if (!this.state.redirect) {
-            if (isAuthenticated) {
+        if (!this.state.isForgotSuccess) {
+            if (isForgotSuccess) {
                 this.setState({
-                    redirect: true
+                    isForgotSuccess: true,
+                    successMassage: message
                 });
             }
         }
-    }
-
-    toggle = () => {
-        //clear errors
-        this.props.clearErrors();
-        this.setState({
-            redirect: !this.state.redirect
-        });
     }
 
     onChange = e => {
@@ -70,24 +70,40 @@ class LoginPage extends Component {
 
     onSubmit = e => {
         e.preventDefault();
-
-        const { email, password } = this.state;
-        const user = {
-            email,
-            password
+        if (this.state.cpassword === this.state.password) {
+            const { password, resetPasswordToken } = this.state;
+            const user = {
+                password,
+                resetPasswordToken
+            }
+            this.props.forgotReset(user);
         }
-        this.props.login(user);
-
-
-
-        //this.toggle();
+        else{
+            this.setState({
+                msg: 'Password does not match!'
+            })
+        }
     }
     render() {
-        if (this.state.redirect) {
+        if (this.state.isForgotSuccess) {
             return (
-                <Redirect
-                    to="/"
-                />
+                <Fragment>
+                    <div className="container" style={{
+                        height: "90vh"
+                    }}>
+                        <div style={{
+
+                            position: "absolute",
+                            left: "50%",
+                            top: "50%",
+                            transform: "translate(-50%, -50%)",
+                        }}>
+                            <Alert color='primary'>
+                                {this.state.successMassage}
+                            </Alert>
+                        </div>
+                    </div>
+                </Fragment>
             );
         }
         return (
@@ -103,7 +119,7 @@ class LoginPage extends Component {
                 }}>
                     <img src="/logo.png" width="60" height="60" className="d-inline-block align-top" alt="" loading="lazy" />
                     <h1>
-                        Sign in to VLab
+                        Reset Your Password
                     </h1>
                     <br></br>
                     <div className="card text-left" style={{
@@ -119,45 +135,33 @@ class LoginPage extends Component {
                         }
                         <Form onSubmit={this.onSubmit}>
                             <FormGroup>
-                                <Label for="email"> Email</Label>
-                                <Input
-                                    type="email"
-                                    name="email"
-                                    id="email"
-                                    placeholder="Email"
-                                    onChange={this.onChange}
-                                    required
-                                />
-                            </FormGroup>
-                            <FormGroup>
                                 <Label for="password"> Password</Label>
                                 <Input
                                     type="password"
                                     name="password"
                                     id="password"
                                     placeholder="Password"
+                                    minlength="8"
                                     onChange={this.onChange}
                                     required
                                 />
-                                <small>
-                                    <strong>
-                                        <Link to="/forgot"> Forgot password?</Link>
-                                    </strong>
-                                </small>
                             </FormGroup>
-
+                            <FormGroup>
+                                <Label for="password">Confirm Password</Label>
+                                <Input
+                                    type="password"
+                                    name="cpassword"
+                                    id="cpassword"
+                                    placeholder="Confirm Password"
+                                    onChange={this.onChange}
+                                    required
+                                />
+                            </FormGroup>
                             <br />
                             <Button color='dark' style={{
                                 width: "100%"
-                            }}>Login</Button>
+                            }}>Reset password</Button>
                         </Form>
-                    </div>
-                    <br />
-                    <div className="card">
-                        <div className="card-body">
-                            New To Vlab?
-                                <Link to="/register"> Create an account</Link>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -167,11 +171,12 @@ class LoginPage extends Component {
 }
 
 const mapStateToProps = state => ({
-    isAuthenticated: state.auth.isAuthenticated,
-    error: state.error
+    error: state.error,
+    isForgotSuccess: state.auth.isForgotSuccess,
+    message: state.auth.msg
 })
 
 export default connect(
     mapStateToProps,
-    { login, clearErrors }
-)(LoginPage);
+    { clearErrors, forgotReset }
+)(ForgotPasswordPage);

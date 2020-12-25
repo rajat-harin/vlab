@@ -6,7 +6,10 @@ import {
     LOGIN_SUCCESS,
     LOGOUT_SUCCESS,
     REGISTER_FAIL,
-    REGISTER_SUCCESS
+    REGISTER_SUCCESS,
+    FORGOT_FAIL,
+    FORGOT_SUCCESS,
+    FORGOTRESET_SUCCESS
 } from '../actions/types';
 
 const initialState = {
@@ -47,9 +50,20 @@ export default function (state = initialState, action) {
                 isRegisterSuccess: true,
                 isLoading: false,
             };
+        case FORGOT_SUCCESS:
+        case FORGOTRESET_SUCCESS:
+            return {
+                ...state,
+                ...action.payload,
+                isAuthenticated: false, //changed here since no token for reg only,
+                isForgotSuccess: true,
+                isLoading: false,
+            };
         case AUTH_ERROR:
         case LOGIN_FAIL:
         case LOGOUT_SUCCESS:
+        case FORGOT_FAIL:
+        case FORGOT_FAIL:
         case REGISTER_FAIL:
             localStorage.removeItem('token');
             return {
