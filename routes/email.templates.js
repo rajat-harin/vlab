@@ -1,5 +1,5 @@
 //const { CLIENT_ORIGIN } = require('../config')
-const CLIENT_ORIGIN  = 'http://localhost:3000'
+const CLIENT_ORIGIN  = process.env.CLIENT_URL
 // This file is exporting an Object with a single key/value pair.
 // However, because this is not a part of the logic of the application
 // it makes sense to abstract it to another file. Plus, it is now easily 

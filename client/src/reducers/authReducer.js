@@ -9,7 +9,8 @@ import {
     REGISTER_SUCCESS,
     FORGOT_FAIL,
     FORGOT_SUCCESS,
-    FORGOTRESET_SUCCESS
+    FORGOTRESET_SUCCESS,
+    FORGOTRESET_FAIL
 } from '../actions/types';
 
 const initialState = {
@@ -63,7 +64,7 @@ export default function (state = initialState, action) {
         case LOGIN_FAIL:
         case LOGOUT_SUCCESS:
         case FORGOT_FAIL:
-        case FORGOT_FAIL:
+        case FORGOTRESET_FAIL:
         case REGISTER_FAIL:
             localStorage.removeItem('token');
             return {

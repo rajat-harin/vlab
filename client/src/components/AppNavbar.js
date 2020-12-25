@@ -11,9 +11,7 @@ import {
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import LoginModal from './Auth/LoginModal';
 import Logout from './Auth/Logout';
-import RegisterModal from './Auth/RegisterModal';
 import { NavLink as RRNavLink } from 'react-router-dom';
 
 class AppNavbar extends Component {

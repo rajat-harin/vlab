@@ -1,23 +1,15 @@
 import React, { Component } from 'react';
 import {
-    NavLink,
-    Modal,
-    ModalBody,
-    ModalHeader,
     Label,
     Input,
     Button,
     Form,
     FormGroup, Alert
 } from 'reactstrap';
-
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { register } from '../../actions/authActions';
 import { clearErrors } from '../../actions/errorActions';
-
-import { notify } from 'react-notify-toast'
-import Spinner from '../Spinner'
 import { Link } from 'react-router-dom';
 import { Fragment } from 'react';
 class RegisterModal extends Component {
@@ -42,7 +34,7 @@ class RegisterModal extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        const { error, isAuthenticated, isRegisterSuccess, message } = this.props;
+        const { error, message } = this.props;
         if (error !== prevProps.error) {
             //CHECK for register error
             if (error.id === 'REGISTER_FAIL') {

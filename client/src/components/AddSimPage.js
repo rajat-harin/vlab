@@ -4,15 +4,14 @@ import {
     Input,
     Button,
     Form,
-    FormGroup, Alert,
-    FormText
+    FormGroup, 
+    Alert
 } from 'reactstrap';
 
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { addSim } from '../actions/branchActions';
 import { clearErrors } from '../actions/errorActions';
-import { Redirect } from 'react-router-dom';
 class AddSimPage extends Component {
     state = {
         modal: true,

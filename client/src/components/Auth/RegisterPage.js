@@ -17,7 +17,7 @@ export default class RegisterPage extends Component {
 
     // Super interesting to me that you can mess with the upper and lower case 
     // of the headers on the fetch call and the world does not explode.
-    fetch(`http://localhost:5000/users/add`, {
+    fetch(`/users/add`, {
       method: 'pOSt',
       headers: {
         aCcePt: 'aPpliCaTIon/JsOn', 

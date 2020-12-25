@@ -19,7 +19,8 @@ class ForgotPasswordPage extends Component {
         email: '',
         msg: null,
         isForgotSuccess: false,
-        successMassage: null
+        successMassage: null,
+        isLoading: false
     }
 
     static propTypes = {
@@ -30,7 +31,7 @@ class ForgotPasswordPage extends Component {
         message: PropTypes.string
     }
     componentDidMount() {
-        const { error } = this.props;
+        //const { error } = this.props;
         // if (isAuthenticated) {
         //     this.setState({
         //         redirect: true
@@ -54,6 +55,7 @@ class ForgotPasswordPage extends Component {
             if (isForgotSuccess) {
                 this.setState({
                     isForgotSuccess: true,
+                    isLoading: false,
                     successMassage: message
                 });
             }
@@ -71,6 +73,9 @@ class ForgotPasswordPage extends Component {
         const user = {
             email
         }
+        this.setState({
+            isLoading: true
+        })
         this.props.forgot(user);
     }
     render() {
@@ -78,20 +83,20 @@ class ForgotPasswordPage extends Component {
             return (
                 <Fragment>
                     <div className="container" style={{
-                height: "90vh"
-            }}>
-                <div style={{
+                        height: "90vh"
+                    }}>
+                        <div style={{
 
-                    position: "absolute",
-                    left: "50%",
-                    top: "50%",
-                    transform: "translate(-50%, -50%)",
-                }}>
-                    <Alert color='primary'>
-                                    { this.state.successMassage}
-                    </Alert>
-                </div>
-                </div>
+                            position: "absolute",
+                            left: "50%",
+                            top: "50%",
+                            transform: "translate(-50%, -50%)",
+                        }}>
+                            <Alert color='primary'>
+                                {this.state.successMassage}
+                            </Alert>
+                        </div>
+                    </div>
                 </Fragment>
             );
         }
@@ -108,7 +113,7 @@ class ForgotPasswordPage extends Component {
                 }}>
                     <img src="/logo.png" width="60" height="60" className="d-inline-block align-top" alt="" loading="lazy" />
                     <h1>
-                        Reset Your Password 
+                        Reset Your Password
                     </h1>
                     <br></br>
                     <div className="card text-left" style={{
@@ -135,9 +140,24 @@ class ForgotPasswordPage extends Component {
                                 />
                             </FormGroup>
                             <br />
-                            <Button color='dark' style={{
-                                width: "100%"
-                            }}>Send password reset email</Button>
+                            <Button color='dark' 
+                                style={{
+                                    width: "100%"
+                            }}>
+                                {this.state.isLoading
+                                    ? 
+                                    (
+                                        <Fragment>
+                                            <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                                            &nbsp;Loading... 
+                                        </Fragment>
+                                    )
+                                    :
+                                    <Fragment>
+                                        Send password reset email
+                                    </Fragment>
+                                }
+                            </Button>
                         </Form>
                     </div>
                 </div>

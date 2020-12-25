@@ -1,13 +1,12 @@
 import React, {Component} from 'react'
-import { Link } from 'react-router-dom'
-import { notify } from 'react-notify-toast'
-import Spinner from '../Spinner'
+import Axios from 'axios'
 
 export default class ConfirmMail extends Component {
   
   //state to store status
   state = {
-    confirming: true
+    confirming: true,
+    msg: null
   }
 
   // When the component mounts the mongo id for the user is pulled  from the 
@@ -21,11 +20,13 @@ export default class ConfirmMail extends Component {
   componentDidMount = () => {
     const { id } = this.props.match.params
 
-    fetch(`http://localhost:5000/users/add/confirm/${id}`)
-      .then(res => res.json())
+    Axios.get(`/users/add/confirm/${id}`)
       .then(data => {
-        this.setState({ confirming: false })
-        notify.show(data.msg,"warning")
+        this.setState({ 
+          confirming: false,
+          msg: data.data.msg
+         })
+         console.log(data.data.msg);
       })
       .catch(err => console.log(err))
   }
@@ -50,7 +51,7 @@ transform: "translate(-50%, -50%)",
         : <h5 style={{
           color: "white"
         }}>
-          Your mail is confirmed! You can close this window or click on login up there!
+          {this.state.msg} You can close this window or click on login up there.
           </h5>
       }
     </div>

@@ -1,7 +1,9 @@
 import React, { Fragment } from 'react'
 import { useParams } from 'react-router-dom';
 import {
-    Card, CardText, CardBody,
+    Card, 
+    CardText, 
+    CardBody,
     CardTitle
 } from 'reactstrap';
 

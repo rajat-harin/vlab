@@ -27,7 +27,7 @@ class LoginPage extends Component {
         clearErrors: PropTypes.func.isRequired
     }
     componentDidMount() {
-        const { error, isAuthenticated } = this.props;
+        const { isAuthenticated } = this.props;
         if (isAuthenticated) {
             this.setState({
                 redirect: true

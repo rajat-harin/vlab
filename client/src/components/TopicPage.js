@@ -1,15 +1,11 @@
 import Axios from 'axios';
 import React, { useState, useEffect } from 'react';
-import { NavLink as RRNavLink, Route, Switch, useRouteMatch } from 'react-router-dom';
+import { NavLink as RRNavLink, Route, Switch } from 'react-router-dom';
 import { Nav, NavItem, NavLink } from 'reactstrap';
 
 import TopicComponent from './TopicComponent';
 
-import TopicSideNav from './TopicSideNav';
-
 function TopicPage({match}) {
-    let { url } = useRouteMatch();
-    let tabName = '';
     useEffect(() => {
         fetchTopic();
     }, []);

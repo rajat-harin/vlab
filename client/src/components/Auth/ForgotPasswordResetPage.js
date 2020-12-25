@@ -32,7 +32,6 @@ class ForgotPasswordPage extends Component {
         message: PropTypes.string
     }
     componentDidMount() {
-        const { error } = this.props;
         const { token } = this.props.match.params
 
         if (!this.state.passwordToken) {

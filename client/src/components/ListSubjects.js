@@ -1,7 +1,7 @@
 import Axios from 'axios';
 import React, { Component, Fragment } from 'react';
 import { } from 'react';
-import { Form, FormGroup, Input, Label } from 'reactstrap';
+import { Form, FormGroup, Input } from 'reactstrap';
 import SubjectCardComponent from './SubjectCardComponent';
 
 class ListSubjects extends Component {
@@ -100,7 +100,7 @@ class ListSubjects extends Component {
                             </div>)
                 }
                 {
-                    (fCount==0)
+                    (fCount===0)
                     ?
                     (<div><br /><br /><br /><h5>NO LABS FOUND!</h5><br /><h6><small>Make sure You spelled all things correctly !</small></h6></div>)
                     :
