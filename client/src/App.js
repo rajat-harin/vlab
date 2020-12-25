@@ -51,7 +51,7 @@ class App extends Component {
                 <Route path="/about" exact component={AppAboutPage} />
                 <Route path="/addSim/:simulation" exact component={FileUploadPage} />
                 <Route path="/addSim" exact component={AddSimPage} />
-                <Route path="/branch/:branch/:subject/:topic" component={TopicPage} />
+                <Route path="/branch/:branch/:subject/:topic/:option" component={TopicPage} />
                 <Route path="/branch/:branch/:subject" component={ListTopics} />
                 <Route path="/branch/:branch" component={ListSubjects} />
 

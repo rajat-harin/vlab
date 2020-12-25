@@ -26,7 +26,7 @@ const TopicComponent = ({topic}) => {
     
     return (
         <div>
-            <Card>
+            <Card style={{border: 'none'}}>
                 <CardBody>
                     <CardTitle>{option.toUpperCase()}</CardTitle>
                     {/* <CardSubtitle>Card subtitle</CardSubtitle> */}
