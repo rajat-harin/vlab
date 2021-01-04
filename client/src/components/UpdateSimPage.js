@@ -4,17 +4,20 @@ import {
     Input,
     Button,
     Form,
-    FormGroup, 
-    Alert
+    FormGroup,
+    Alert,
+    CustomInput
 } from 'reactstrap';
 
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { addSim } from '../actions/branchActions';
+import { getSingleSim, updateSim } from '../actions/branchActions';
 import { clearErrors } from '../actions/errorActions';
-import { Redirect } from 'react-router-dom';
-import FileUploadPage from './FileUploadPage';
-class AddSimPage extends Component {
+
+import Spinner from './Spinner';
+import { withRouter } from 'react-router-dom';
+
+class UpdateSimPage extends Component {
     state = {
         modal: true,
         simulation: '',
@@ -27,18 +30,34 @@ class AddSimPage extends Component {
         procedure: [],
         selectedFile: null,
         msg: null,
-        isSubmit: false,
-        navigate: false
+        isNewUpload: false
     }
 
     static propTypes = {
-        isSuccess: PropTypes.bool,
-        error: PropTypes.object.isRequired,
-        addSim: PropTypes.func.isRequired,
-        clearErrors: PropTypes.func.isRequired
+
+        clearErrors: PropTypes.func.isRequired,
+        getSingleSim: PropTypes.func.isRequired,
+        singleExp: PropTypes.object.isRequired,
+        msg: PropTypes.string.isRequired
     }
 
+    componentDidMount() {
+        this.props.getSingleSim(this.props.match.params.id)
+    }
     componentDidUpdate(prevProps) {
+        if (this.props.singleExp !== prevProps.singleExp) {
+            let { simulation, name, branch, subject, introduction, theory, objective, procedure } = this.props.singleExp;
+            this.setState({
+                simulation,
+                name,
+                branch,
+                subject,
+                introduction,
+                theory,
+                objective,
+                procedure
+            })
+        }
         const { error, isSuccess } = this.props;
         if (error !== prevProps.error) {
             //CHECK for register error
@@ -49,54 +68,53 @@ class AddSimPage extends Component {
                 this.setState({ msg: null })
             }
         }
-        if(this.state.isSubmit)
-        {
-            if(isSuccess)
-            {
-                this.setState({
-                    navigate: true,
-                    isSubmit: false
-                })
-            }
+        if (isSuccess && this.props.msg !== prevProps.msg) {
+            this.setState({ msg: this.props.msg })
         }
+
     }
 
     onChange = e => {
         if (e.target.name === "objective" || e.target.name === "procedure") {
-            this.setState({ [e.target.name]: e.target.value.split('\n') })
+            this.setState({ [e.target.name]: e.target.value.split(',') })
         }
         else {
             this.setState({ [e.target.name]: e.target.value })
-        }
-        if(e.target.name === "name" || e.target.name === "branch")
-        {
-            let sim = this.state.name.substring(0,8).replace(/\s/g,'') + Date.now().toString();
-            this.setState({
-                simulation: sim
-            })
         }
     }
 
     onSubmit = e => {
         e.preventDefault();
         const { simulation, name, branch, subject, introduction, theory, objective, procedure } = this.state;
-        
+
         const newSim = {
             simulation, name, branch, subject, introduction, theory, objective, procedure
         }
-        this.props.addSim(newSim);
+        this.props.updateSim(newSim);
 
-        this.submitToggle();
-    }
-    submitToggle = () => {
-        this.setState({
-            isSubmit: !this.state.isSubmit
-        });
+        //this.toggle();
     }
     render() {
-        if(this.state.navigate){
-            return(
-                <FileUploadPage name= {this.state.simulation} />
+        if (this.props.isLoading) {
+            return (
+                <Spinner />
+            )
+        }
+        if (this.props.error && this.props.error.id === 'LOAD_SINGLE_SIM_FAIL') {
+            return (
+                <div style={{ height: '80vh' }}>
+                    <div style={{
+
+                        position: "absolute",
+                        left: "50%",
+                        top: "50%",
+                        transform: "translate(-50%, -50%)",
+                    }}>
+                        <Alert color='primary'>
+                            {this.props.error.msg.msg}
+                        </Alert>
+                    </div>
+                </div>
             )
         }
         return (
@@ -118,8 +136,7 @@ class AddSimPage extends Component {
                                 </Alert>)
                         ) : null
                     }
-                    {
-                    }
+
                     <Form onSubmit={this.onSubmit}>
                         <FormGroup className="row">
                             <Label for="simulation" className="col-sm-2 col-form-label font-weight-bold">Simulation</Label>
@@ -139,6 +156,7 @@ class AddSimPage extends Component {
                                 name="name"
                                 id="name"
                                 placeholder="Name of Experiment"
+                                value={this.state.name}
                                 onChange={this.onChange}
                                 className="col-sm-10"
                                 required
@@ -151,6 +169,7 @@ class AddSimPage extends Component {
                                 name="branch"
                                 id="branch"
                                 placeholder="Branch"
+                                value={this.state.branch}
                                 onChange={this.onChange}
                                 className="col-sm-10"
                                 required
@@ -163,6 +182,7 @@ class AddSimPage extends Component {
                                 name="subject"
                                 id="subject"
                                 placeholder="subject"
+                                value={this.state.subject}
                                 onChange={this.onChange}
                                 className="col-sm-10"
                                 required
@@ -175,6 +195,7 @@ class AddSimPage extends Component {
                                 name="introduction"
                                 id="introduction"
                                 placeholder="introduction"
+                                value={this.state.introduction}
                                 onChange={this.onChange}
                                 className="col-sm-10"
                                 required
@@ -187,6 +208,7 @@ class AddSimPage extends Component {
                                 name="theory"
                                 id="theory"
                                 placeholder="theory"
+                                value={this.state.theory}
                                 onChange={this.onChange}
                                 className="col-sm-10"
                                 required
@@ -199,6 +221,7 @@ class AddSimPage extends Component {
                                 name="objective"
                                 id="objective"
                                 placeholder="objective"
+                                value={this.state.objective.join('\n')}
                                 onChange={this.onChange}
                                 className="col-sm-10"
                                 required
@@ -211,13 +234,25 @@ class AddSimPage extends Component {
                                 name="procedure"
                                 id="procedure"
                                 placeholder="procedure"
+                                value={this.state.procedure.join('\n')}
                                 onChange={this.onChange}
                                 className="col-sm-10"
                                 required
                             />
                         </FormGroup>
+                        <FormGroup className="row">
+                        <Label for="subject" className="col-sm-2 col-form-label font-weight-bold"> </Label>
+                            <CustomInput 
+                                type="switch" 
+                                id="isNewUpload" 
+                                name="isNewUpload" 
+                                className="col-sm-10" 
+                                onChange={this.onChange}
+                                label="Turn on this if you want to upload updated simulation file." 
+                            />
+                        </FormGroup>
                         <br />
-                        <Button color='dark' style={{ float: "right" }}>Add</Button>
+                        <Button color='dark' style={{ float: "right" }}>Update</Button>
                     </Form>
                 </div>
             </div>
@@ -228,10 +263,12 @@ class AddSimPage extends Component {
 
 const mapStateToProps = state => ({
     isSuccess: state.branch.isSuccess,
-    error: state.error
+    singleExp: state.branch.singleExp,
+    error: state.error,
+    msg: state.branch.msg
 })
 
-export default connect(
+export default withRouter(connect(
     mapStateToProps,
-    { addSim, clearErrors }
-)(AddSimPage);
+    { getSingleSim, clearErrors, updateSim }
+)(UpdateSimPage));

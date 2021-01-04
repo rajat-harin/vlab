@@ -23,7 +23,7 @@ router.get('/subject/:name', (req, res) => {
     Topic.aggregate([
         { $match: { branch: req.params.name } },
         { $group: { _id: "$subject", count: { $sum: 1 } } }
-      ])
+    ])
         .then(subject => {
             console.log("listing Subject....:");
             console.log(subject);
@@ -34,8 +34,22 @@ router.get('/subject/:name', (req, res) => {
             res.status(400).json({ msg: 'Error!' })
         });
 });
+router.get('/search', (req, res) => {
+    Topic.find()
+        .select('-introduction -procedure -theory -objective')
+        .then(topics => res.json(topics))
+        .catch(err => res.status(400).json({ msg: 'Error!', err: JSON.stringify(err) }));
+});
 
-router.get('/:name', (req, res) => {
+router.get('/getOneById/:id', (req, res) => {
+    Topic.find({
+        _id: req.params.id
+    })
+        .then(topics => res.status(200).json(topics[0]))
+        .catch(err => res.status(400).json({ msg: 'Error!', err: JSON.stringify(err) }));
+});
+
+router.get('/all/:name', (req, res) => {
     Topic.find({
         simulation: req.params.name
     })
@@ -61,7 +75,6 @@ router.post('/', (req, res) => {
             if (topic) {
                 return res.status(400).json({ msg: 'Topic Already Exists!' });
             }
-            let newSim = simulation.replace(/\s/g,'') + Date.now().toString();
             const newTopic = new Topic({
                 name,
                 branch,
@@ -70,7 +83,7 @@ router.post('/', (req, res) => {
                 theory,
                 objective,
                 procedure,
-                simulation: newSim
+                simulation
             });
 
             newTopic.save()
@@ -94,6 +107,46 @@ router.post('/', (req, res) => {
             })
         });
 
+});
+
+router.post('/update', (req, res) => {
+    let { name, branch, subject, introduction, theory, objective, procedure, simulation } = req.body;
+    //field validation
+    if (!name || !branch || !subject) {
+        console.log("error in fields");
+        return res.status(400).json({ msg: 'Please enter all fields!' });
+    }
+    //name validation
+    Topic.findOneAndUpdate({ simulation }, { name, branch, subject, introduction, theory, objective, procedure, simulation })
+        .then(doc => {
+            res.json({
+                data: doc,
+                msg: "Topic Updated Successfully"
+            });
+        })
+        .catch((err) => {
+            res.status(500).json({
+                msg: 'Error!',
+                err: JSON.stringify(err)
+            })
+        });
+});
+
+router.post('/drop', (req, res) => {
+    
+    Topic.findOneAndRemove({ simulation })
+        .then(doc => {
+            res.json({
+                data: doc,
+                msg: "Topic Removed Successfully"
+            });
+        })
+        .catch((err) => {
+            res.status(500).json({
+                msg: 'Error!',
+                err: JSON.stringify(err)
+            })
+        });
 });
 
 module.exports = router;

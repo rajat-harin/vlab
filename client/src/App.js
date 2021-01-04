@@ -26,6 +26,7 @@ import LoginPage from './components/Auth/LoginPage';
 import RegisterModal from './components/Auth/RegisterModal';
 import ForgotPasswordPage from './components/Auth/ForgotPasswordPage';
 import ForgotPasswordResetPage from './components/Auth/ForgotPasswordResetPage';
+import ControlPanelPage from './components/ControlPanelPage';
 
 
 class App extends Component {
@@ -51,11 +52,12 @@ class App extends Component {
                 <Route path="/about" exact component={AppAboutPage} />
                 <Route path="/addSim/:simulation" exact component={FileUploadPage} />
                 <Route path="/addSim" exact component={AddSimPage} />
+                <Route path="/cpanel/:option" component={ControlPanelPage} />
                 <Route path="/branch/:branch/:subject/:topic/:option" component={TopicPage} />
                 <Route path="/branch/:branch/:subject" component={ListTopics} />
                 <Route path="/branch/:branch" component={ListSubjects} />
 
-                <Route path="" component={NotFound} />
+                {/* <Route path="" component={NotFound} /> */}
               </Switch>
             </div>
           </div>

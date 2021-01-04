@@ -31,7 +31,7 @@ class AppNavbar extends Component {
 
     render() {
         const { user, isAuthenticated } = this.props.auth;
-        let isAdmin = (this.props.auth.user)? this.props.auth.user.isAdmin: false;
+        let isAdmin = (this.props.auth.user) ? this.props.auth.user.isAdmin : false;
         const authLinks = (
             <Fragment>
                 <NavItem>
@@ -60,8 +60,11 @@ class AppNavbar extends Component {
         const adminLinks = (
             <Fragment>
                 <NavItem>
-                                <NavLink to="/addSim" className="anchors" tag={RRNavLink}>Add Simulation</NavLink>
-                            </NavItem>
+                    <NavLink to="/addSim" className="anchors" tag={RRNavLink}>Add Simulation</NavLink>
+                </NavItem>
+                <NavItem>
+                    <NavLink to="/cpanel/general" className="anchors" tag={RRNavLink}>Admin Panel</NavLink>
+                </NavItem>
             </Fragment>
         )
         return (
@@ -80,9 +83,9 @@ class AppNavbar extends Component {
                             <NavItem>
                                 <NavLink to="/about" className="anchors" tag={RRNavLink}>About</NavLink>
                             </NavItem>
-                            {isAdmin? adminLinks: (<Fragment></Fragment>)}
+                            {isAdmin ? adminLinks : (<Fragment></Fragment>)}
                             {isAuthenticated ? authLinks : guestLinks}
-                            
+
                         </Nav>
                     </Collapse>
                 </Navbar>

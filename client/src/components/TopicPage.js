@@ -47,7 +47,7 @@ function TopicPage({match}) {
             }
         };
         console.log(match);
-        Axios.get(`/topic/${match.params.topic}`, config)
+        Axios.get(`/topic/all/${match.params.topic}`, config)
             .then(res => {
                 setTopicDetails(res.data[0]);
             })

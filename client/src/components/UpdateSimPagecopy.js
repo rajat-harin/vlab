@@ -10,11 +10,11 @@ import {
 
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { addSim } from '../actions/branchActions';
+import { getSingleSim } from '../actions/branchActions';
 import { clearErrors } from '../actions/errorActions';
-import { Redirect } from 'react-router-dom';
+
 import FileUploadPage from './FileUploadPage';
-class AddSimPage extends Component {
+class UpdateSimPagecopy extends Component {
     state = {
         modal: true,
         simulation: '',
@@ -27,18 +27,24 @@ class AddSimPage extends Component {
         procedure: [],
         selectedFile: null,
         msg: null,
-        isSubmit: false,
-        navigate: false
+        navigate: false,
+        isLoading: true,
+        isNewUpload: false
     }
 
     static propTypes = {
-        isSuccess: PropTypes.bool,
-        error: PropTypes.object.isRequired,
-        addSim: PropTypes.func.isRequired,
-        clearErrors: PropTypes.func.isRequired
+        
+        clearErrors: PropTypes.func.isRequired,
+        getSingleSim: PropTypes.func.isRequired,
+        singleExp: PropTypes.object.isRequired
     }
 
+    componentDidMount() {
+        console.log(this.props);
+    }
     componentDidUpdate(prevProps) {
+        //this.props.getSingleSim(this.props.match.params.id)
+        console.log(this.props);
         const { error, isSuccess } = this.props;
         if (error !== prevProps.error) {
             //CHECK for register error
@@ -49,16 +55,22 @@ class AddSimPage extends Component {
                 this.setState({ msg: null })
             }
         }
-        if(this.state.isSubmit)
-        {
-            if(isSuccess)
-            {
-                this.setState({
-                    navigate: true,
-                    isSubmit: false
-                })
+        if (this.state.modal) {
+            if (isSuccess) {
+                this.setState({ msg: "Topic Added Successfully!!!",
+            navigate: true })
+                this.toggle();
+                //this.props.history.push(`/addSim/${this.state.simulation}`)
             }
         }
+    }
+
+    toggle = () => {
+        //clear errors
+        //this.props.clearErrors();
+        this.setState({
+            modal: !this.state.modal
+        });
     }
 
     onChange = e => {
@@ -86,12 +98,7 @@ class AddSimPage extends Component {
         }
         this.props.addSim(newSim);
 
-        this.submitToggle();
-    }
-    submitToggle = () => {
-        this.setState({
-            isSubmit: !this.state.isSubmit
-        });
+        //this.toggle();
     }
     render() {
         if(this.state.navigate){
@@ -217,7 +224,7 @@ class AddSimPage extends Component {
                             />
                         </FormGroup>
                         <br />
-                        <Button color='dark' style={{ float: "right" }}>Add</Button>
+                        <Button color='dark' style={{ float: "right" }}>Update</Button>
                     </Form>
                 </div>
             </div>
@@ -228,10 +235,8 @@ class AddSimPage extends Component {
 
 const mapStateToProps = state => ({
     isSuccess: state.branch.isSuccess,
+    singleExp: state.branch.singleExp,
     error: state.error
 })
 
-export default connect(
-    mapStateToProps,
-    { addSim, clearErrors }
-)(AddSimPage);
+export default UpdateSimPagecopy;

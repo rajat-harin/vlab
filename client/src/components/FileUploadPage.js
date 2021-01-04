@@ -1,6 +1,5 @@
 import Axios from 'axios';
 import React, { Component, Fragment } from 'react';
-import { Redirect } from 'react-router-dom';
 import {
     Label,
     CustomInput,
@@ -22,9 +21,10 @@ class FileUploadPage extends Component {
     }
 
     componentDidMount() {
+        //console.log(this.props);
         if (!this.state.simulation) {
             this.setState({
-                simulation: this.props.match.params.simulation
+                simulation: this.props.name
             })
         }
     }
@@ -96,28 +96,28 @@ class FileUploadPage extends Component {
         })
     }
     render() {
-        if (this.state.isSuccess) {
-            return (
-                <Fragment>
-                    <div className="container" style={{
-                        height: "90vh"
-                    }}>
-                        <div style={{
+        // if (this.state.isSuccess) {
+        //     return (
+        //         <Fragment>
+        //             <div className="container" style={{
+        //                 height: "90vh"
+        //             }}>
+        //                 <div style={{
 
-                            position: "absolute",
-                            left: "50%",
-                            top: "50%",
-                            transform: "translate(-50%, -50%)",
-                        }}>
-                            <Alert color='primary'>
-                                {this.state.msg}
-                            </Alert>
-                        </div>
-                    </div>
-                    <Redirect to= "/"/>
-                </Fragment>
-            );
-        }
+        //                     position: "absolute",
+        //                     left: "50%",
+        //                     top: "50%",
+        //                     transform: "translate(-50%, -50%)",
+        //                 }}>
+        //                     <Alert color='primary'>
+        //                         {this.state.msg}
+        //                     </Alert>
+        //                 </div>
+        //             </div>
+        //             {/* <Redirect to= "/"/> */}
+        //         </Fragment>
+        //     );
+        // }
         return (
             <div className="container text-left">
                 <br />
