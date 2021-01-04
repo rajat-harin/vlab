@@ -16,6 +16,7 @@ import { clearErrors } from '../actions/errorActions';
 
 import Spinner from './Spinner';
 import { withRouter } from 'react-router-dom';
+import FileUploadPage from './FileUploadPage';
 
 class UpdateSimPage extends Component {
     state = {
@@ -30,7 +31,8 @@ class UpdateSimPage extends Component {
         procedure: [],
         selectedFile: null,
         msg: null,
-        isNewUpload: false
+        isNewUpload: false,
+        isSubmit: false
     }
 
     static propTypes = {
@@ -78,6 +80,9 @@ class UpdateSimPage extends Component {
         if (e.target.name === "objective" || e.target.name === "procedure") {
             this.setState({ [e.target.name]: e.target.value.split(',') })
         }
+        else if(e.target.name === "isNewUpload") {
+            this.setState({ [e.target.name]: e.target.checked })
+        }
         else {
             this.setState({ [e.target.name]: e.target.value })
         }
@@ -92,7 +97,12 @@ class UpdateSimPage extends Component {
         }
         this.props.updateSim(newSim);
 
-        //this.toggle();
+        this.submitToggle();
+    }
+    submitToggle = () => {
+        this.setState({
+            isSubmit: !this.state.isSubmit
+        });
     }
     render() {
         if (this.props.isLoading) {
@@ -114,6 +124,32 @@ class UpdateSimPage extends Component {
                             {this.props.error.msg.msg}
                         </Alert>
                     </div>
+                </div>
+            )
+        }
+        if(this.state.isSubmit && this.state.isNewUpload)
+        {
+            return (
+                <FileUploadPage name= {this.state.simulation} />
+            )
+        }
+        if(this.props.isSuccess && this.state.msg)
+        {
+            return (
+                <div>
+                    {(this.state.msg) ?
+                        (
+                            (this.props.isSuccess) ?
+                                (
+                                    <Alert color='primary'>
+                                        { this.state.msg}
+                                    </Alert>
+                                ) :
+                                (<Alert color='danger'>
+                                    {this.state.msg}
+                                </Alert>)
+                        ) : null
+                    }
                 </div>
             )
         }
@@ -247,8 +283,9 @@ class UpdateSimPage extends Component {
                                 id="isNewUpload" 
                                 name="isNewUpload" 
                                 className="col-sm-10" 
+                                checked = {this.state.isNewUpload}
                                 onChange={this.onChange}
-                                label="Turn on this if you want to upload updated simulation file." 
+                                label="Turn this on if you want to upload updated simulation file." 
                             />
                         </FormGroup>
                         <br />

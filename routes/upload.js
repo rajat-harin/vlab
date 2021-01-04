@@ -50,13 +50,14 @@ router.post('/:simName', (req, res) => {
         }
         else {
           unZip(req.file, req.params.simName);
+          return res.status(200).json({
+            fileName: req.originalname,
+            msg: "File Uploaded Successfully!",
+            err: null
+          })
         }
         
-   return res.status(200).json({
-     fileName: req.originalname,
-     msg: "File Uploaded Successfully!",
-     err: null
-   })
+   
 
  })
 });
