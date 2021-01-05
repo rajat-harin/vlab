@@ -156,7 +156,7 @@ class UpdateSimPage extends Component {
         return (
             <div className="container text-left">
                 <br />
-                <h1>Add New Experiment</h1>
+                <h1>Update Experiment</h1>
                 <br /><br />
                 <div>
                     {(this.state.msg) ?

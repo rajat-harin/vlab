@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import { Link, Route, Switch, useRouteMatch } from 'react-router-dom';
 import AddSimPage from './AddSimPage';
-import FileUploadPage from './FileUploadPage';
 import './ControlPanelPage.css';
 import store from '../store';
 import { loadSim } from '../actions/branchActions';
 import SearchSimPage from './SearchSimPage';
 import UpdateSimPage from './UpdateSimPage';
-import UpdateSimPagecopy from './UpdateSimPagecopy';
+import DropSimPage from './DropSimPage';
 
 export default class ControlPanelPage extends Component {
     state = {}
@@ -48,7 +47,6 @@ export default class ControlPanelPage extends Component {
                         </nav>
                     </div>
                     <div className="col-md-9 col-12">
-                        <h3>**under construction**</h3>
                         {/* <Switch> */}
                             {/* <Route exact path="/cpanel/upload/:id" >
                                 < FileUploadPage />
@@ -61,6 +59,9 @@ export default class ControlPanelPage extends Component {
                             </Route>
                             <Route exact path="/cpanel/updateSim/:id">
                                 < UpdateSimPage />
+                            </Route>
+                            <Route exact path="/cpanel/dropSim/:id">
+                                < DropSimPage />
                             </Route>
 
                         {/* </Switch> */}

@@ -77,7 +77,7 @@ export const updateSim = ({ simulation, name, branch, subject, introduction, the
         })
 }
 
-export const dropSim = ({ simulation }) => dispatch => {
+export const dropSim = ({ id }) => dispatch => {
     const config = {
         headers: {
             'Content-Type': 'application/json'
@@ -85,7 +85,7 @@ export const dropSim = ({ simulation }) => dispatch => {
     };
     //console.log(selectedFile);
     // request body
-    const body = JSON.stringify({ simulation });
+    const body = JSON.stringify({ id });
     // request
     Axios.post('/topic/drop', body, config)
         .then(res => dispatch({

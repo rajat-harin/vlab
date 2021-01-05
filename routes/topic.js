@@ -133,8 +133,8 @@ router.post('/update', (req, res) => {
 });
 
 router.post('/drop', (req, res) => {
-    
-    Topic.findOneAndRemove({ simulation })
+    let { id } = req.body;
+    Topic.deleteOne({ _id : id })
         .then(doc => {
             res.json({
                 data: doc,
