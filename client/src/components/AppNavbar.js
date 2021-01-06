@@ -60,9 +60,6 @@ class AppNavbar extends Component {
         const adminLinks = (
             <Fragment>
                 <NavItem>
-                    <NavLink to="/addSim" className="anchors" tag={RRNavLink}>Add Simulation</NavLink>
-                </NavItem>
-                <NavItem>
                     <NavLink to="/cpanel/general" className="anchors" tag={RRNavLink}>Admin Panel</NavLink>
                 </NavItem>
             </Fragment>
