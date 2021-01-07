@@ -15,7 +15,7 @@ import { Fragment } from 'react';
 class RegisterModal extends Component {
     state = {
         modal: false,
-        username: '',
+        name: '',
         email: '',
         password: '',
         isAdmin: false,
@@ -67,9 +67,9 @@ class RegisterModal extends Component {
     onSubmit = e => {
         e.preventDefault();
         this.setState({ sendingEmail: true })
-        const { username, email, password, isAdmin } = this.state;
+        const { name, email, password, isAdmin } = this.state;
         const newUser = {
-            username,
+            username: name,
             email,
             password,
             isAdmin
@@ -119,11 +119,11 @@ class RegisterModal extends Component {
                         }
                         <Form onSubmit={this.onSubmit}>
                             <FormGroup>
-                                <Label for="username">Name</Label>
+                                <Label for="name">Name</Label>
                                 <Input
                                     type="text"
-                                    name="username"
-                                    id="username"
+                                    name="name"
+                                    id="name"
                                     placeholder="Name"
                                     onChange={this.onChange}
                                     required
