@@ -200,16 +200,19 @@ class UpdateSimPage extends Component {
                         </FormGroup>
                         <FormGroup className="row">
                             <Label for="branch" className="col-sm-2 col-form-label font-weight-bold">Branch</Label>
-                            <Input
-                                type="text"
-                                name="branch"
+                            <Input 
+                                type="select" 
+                                name="branch" 
                                 id="branch"
-                                placeholder="Branch"
                                 value={this.state.branch}
-                                onChange={this.onChange}
                                 className="col-sm-10"
-                                required
-                            />
+                                onChange={this.onChange}
+                            >
+                                <option value = "cse">Computer Science and Engineering</option>
+                                <option value = "mech">Mechanical Engineering</option>
+                                <option value = "etrx">Electronics Engineering</option>
+                                <option value = "et">Electrical Engineering</option>
+                            </Input>
                         </FormGroup>
                         <FormGroup className="row">
                             <Label for="subject" className="col-sm-2 col-form-label font-weight-bold">Subject</Label>

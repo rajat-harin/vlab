@@ -38,8 +38,8 @@ router.post('/add', (req, res) => {
               .then(() => res.json({ msg: msgs.confirm }))
               .catch((err) => {
                 console.log(err)
-                res.status(400).json({
-                  msg: 'Error!',
+                res.status(500).json({
+                  msg: 'Status:500!Internal Server error.',
                   err: JSON.stringify(err)
                 })
               })
@@ -73,20 +73,23 @@ router.get('/add/confirm/:id', (req, res) => {
       // user tried to go to a different url than the one provided in the 
       // confirmation email.
       if (!user) {
-        res.json({ msg: msgs.couldNotFind })
+        res.status(200).json({ msg: msgs.couldNotFind })
       }
 
       // The user exists but has not been confirmed. We need to confirm this 
       // user and let them know their email address has been confirmed.
       else if (user && !user.confirmed) {
         User.findByIdAndUpdate(id, { confirmed: true })
-          .then(() => res.json({ msg: msgs.confirmed }))
-          .catch(err => console.log(err))
+          .then(() => res.statusCode(200).json({ msg: msgs.confirmed }))
+          .catch(err => res.statusCode(500).json({ 
+            msg: "Status:500!Internal Server error.",
+            err
+            }))
       }
 
       // The user has already confirmed this email address.
       else {
-        res.json({ msg: msgs.alreadyConfirmed })
+        res.status(200).json({ msg: msgs.alreadyConfirmed })
       }
 
     })

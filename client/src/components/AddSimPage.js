@@ -4,7 +4,7 @@ import {
     Input,
     Button,
     Form,
-    FormGroup, 
+    FormGroup,
     Alert
 } from 'reactstrap';
 
@@ -19,7 +19,7 @@ class AddSimPage extends Component {
         modal: true,
         simulation: '',
         name: '',
-        branch: '',
+        branch: 'cse',
         subject: '',
         introduction: '',
         theory: '',
@@ -49,10 +49,8 @@ class AddSimPage extends Component {
                 this.setState({ msg: null })
             }
         }
-        if(this.state.isSubmit)
-        {
-            if(isSuccess)
-            {
+        if (this.state.isSubmit) {
+            if (isSuccess) {
                 this.setState({
                     navigate: true,
                     isSubmit: false
@@ -68,9 +66,8 @@ class AddSimPage extends Component {
         else {
             this.setState({ [e.target.name]: e.target.value })
         }
-        if(e.target.name === "name" || e.target.name === "branch")
-        {
-            let sim = this.state.name.substring(0,8).replace(/\s/g,'') + Date.now().toString();
+        if (e.target.name === "name" || e.target.name === "branch") {
+            let sim = this.state.name.substring(0, 8).replace(/\s/g, '') + Date.now().toString();
             this.setState({
                 simulation: sim
             })
@@ -80,7 +77,7 @@ class AddSimPage extends Component {
     onSubmit = e => {
         e.preventDefault();
         const { simulation, name, branch, subject, introduction, theory, objective, procedure } = this.state;
-        
+
         const newSim = {
             simulation, name, branch, subject, introduction, theory, objective, procedure
         }
@@ -94,9 +91,9 @@ class AddSimPage extends Component {
         });
     }
     render() {
-        if(this.state.navigate){
-            return(
-                <FileUploadPage name= {this.state.simulation} />
+        if (this.state.navigate) {
+            return (
+                <FileUploadPage name={this.state.simulation} />
             )
         }
         return (
@@ -146,15 +143,19 @@ class AddSimPage extends Component {
                         </FormGroup>
                         <FormGroup className="row">
                             <Label for="branch" className="col-sm-2 col-form-label font-weight-bold">Branch</Label>
-                            <Input
-                                type="text"
-                                name="branch"
+                            <Input 
+                                type="select" 
+                                name="branch" 
                                 id="branch"
-                                placeholder="Branch"
-                                onChange={this.onChange}
+                                value={this.state.branch}
                                 className="col-sm-10"
-                                required
-                            />
+                                onChange={this.onChange}
+                            >
+                                <option value = "cse">Computer Science and Engineering</option>
+                                <option value = "mech">Mechanical Engineering</option>
+                                <option value = "etrx">Electronics Engineering</option>
+                                <option value = "et">Electrical Engineering</option>
+                            </Input>
                         </FormGroup>
                         <FormGroup className="row">
                             <Label for="subject" className="col-sm-2 col-form-label font-weight-bold">Subject</Label>
