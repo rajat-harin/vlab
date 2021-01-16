@@ -35,6 +35,34 @@ class AppBranchPage extends Component {
             img: "/images/electrical.jpg",
             description: "Electrical engineering is an engineering discipline concerned with the study, design and application of equipment, devices and systems which use electricity, electronics, and electromagnetism. It emerged as an identifiable occupation in the latter half of the 19th century after commercialization of the electric telegraph, the telephone, and electrical power generation, distribution and use.",
             url: "et"
+        }
+        , {
+            id: 5,
+            title: "Electronics And Telecommunication Engineering",
+            img: "/images/etc.jpg",
+            description: "Electronics and Telecommunication Engineering is a well-known branch of engineering. It deals with the reception of video, microprocessors, analogue communication, digital and analogue integrated circuits, satellite communication, antennae and wave progression, solid-state devices, voice and data etc.",
+            url: "etc"
+        }
+        , {
+            id: 6,
+            title: "Infomation Technology",
+            img: "/images/it.jpg",
+            description: "Information Technology involves an architectural approach for planning, analyzing, designing, and implementing applications.",
+            url: "it"
+        }
+        , {
+            id: 7,
+            title: "Civil Engineering",
+            img: "/images/civil.jpg",
+            description: "Civil engineering is a professional engineering discipline that deals with the design, construction, and maintenance of the physical and naturally built environment, including public works such as roads, bridges, canals, dams, airports, sewerage systems, pipelines, structural components of buildings, and railways.",
+            url: "ce"
+        },
+        , {
+            id: 8,
+            title: "Artificial Intelligence and Machine Learning",
+            img: "/images/aiml.jpg",
+            description: "Artificial intelligence (AI) brings with it a promise of genuine human-to-machine interaction. When machines become intelligent, they can understand requests, connect data points and draw conclusions. They can reason, observe and plan.",
+            url: "aiml"
         }]
         return (
             <div>

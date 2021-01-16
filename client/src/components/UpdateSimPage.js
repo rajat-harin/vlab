@@ -212,6 +212,10 @@ class UpdateSimPage extends Component {
                                 <option value = "mech">Mechanical Engineering</option>
                                 <option value = "etrx">Electronics Engineering</option>
                                 <option value = "et">Electrical Engineering</option>
+                                <option value = "etc">Electronics And Telecommunication Engineering</option>
+                                <option value = "it">Infomation Technology</option>
+                                <option value = "ce">Civil Engineering</option>
+                                <option value = "aiml">AIML</option>
                             </Input>
                         </FormGroup>
                         <FormGroup className="row">
