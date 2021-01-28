@@ -22,7 +22,6 @@
 #SIMULATION FILES
 /client/public/sims
 
-
 # misc
 /client.DS_Store
 /client.env.local
