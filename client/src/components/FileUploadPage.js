@@ -72,7 +72,7 @@ class FileUploadPage extends Component {
         const data = new FormData()
         data.append('file', this.state.selectedFile)
         console.log(this.state.selectedFile);
-        Axios.post(`/upload/${this.state.simulation}`, data, {
+        Axios.post(`/upload/aws/${this.state.simulation}`, data, {
             onUploadProgress: ProgressEvent => {
                 this.setState({
                     loaded: (ProgressEvent.loaded / ProgressEvent.total * 100),

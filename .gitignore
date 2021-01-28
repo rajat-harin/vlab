@@ -19,6 +19,10 @@
 # production
 /client/build
 
+#SIMULATION FILES
+/client/public/sims
+
+
 # misc
 /client.DS_Store
 /client.env.local
@@ -26,6 +30,7 @@
 /client.env.test.local
 /client.env.production.local
 /dump.txt
+/secrets
 
 /client/npm-debug.log*
 /client/yarn-debug.log*
