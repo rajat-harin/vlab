@@ -18,8 +18,6 @@
 /startScript.bat
 # production
 /client/build
-
-#SIMULATION FILES
 /client/public/sims
 
 # misc
