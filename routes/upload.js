@@ -60,17 +60,32 @@ const unZipToBucket = (file, newFileName) => {
   // reading archives
   var zip = new AdmZip(path.join(file.destination, file.filename));
   var zipEntries = zip.getEntries();
-  zipEntries.forEach(function(zipEntry) {
-    s3.upload({
-      Bucket: bucketName,
-      Key: newFileName+'/'+zipEntry.entryName,
-      Body: zipEntry.getData()
-    },
-    (err, data) => {
-      return err
+  zipEntries.forEach(function (zipEntry) {
+    if (zipEntry.entryName == "index.html") {
+      s3.upload({
+        Bucket: bucketName,
+        Key: newFileName + '/' + zipEntry.entryName,
+        Body: zipEntry.getData(),
+        ContentType: 'text/html'
+      },
+        (err, data) => {
+          return err
+        }
+      )
     }
-    )
-});
+    else {
+      s3.upload({
+        Bucket: bucketName,
+        Key: newFileName + '/' + zipEntry.entryName,
+        Body: zipEntry.getData()
+      },
+        (err, data) => {
+          return err
+        }
+      )
+    }
+
+  });
 }
 
 var storage = multer.diskStorage({
