@@ -18,7 +18,6 @@
 /startScript.bat
 # production
 /client/build
-/client/public/sims
 
 # misc
 /client.DS_Store

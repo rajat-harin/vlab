@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../bootstrap-4.5.2-dist/css/bootstrap.css">
+    <title>GHRCE vLab</title>
+</head>
+<style>
+    .cell {
+        width: 8rem;
+        height: 4rem;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        display: flex;
+        justify-content: center;
+        line-height: 3rem;
+        color: #000;
+        font-weight: bold;
+        background: linear-gradient(to right, #fff, #fff 40%, #5b5c5c 40%, #5b5c5c 65%, #252423 65%);
+    }
+
+    section {
+        height: 90vh;
+    }
+
+    body {
+        background: #252423;
+        color: white;
+    }
+
+    .dark {
+        background: #252423;
+        color: white;
+    }
+
+    .controller {
+        padding: 10px;
+    }
+
+    .playground {
+        padding: 20px;
+    }
+
+    .navKeys {
+        margin-left: 20px;
+    }
+</style>
+
+<body>
+    <section class="playground">
+        <h1>
+            Stack: Linked List implementation
+        </h1>
+
+        <br>
+        <div class="card dark controller">
+            <form>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group row">
+                            <label for="valueField" class="col-sm-4 col-form-label">Element to be added:</label>
+                            <input type="number" class="form-control form-control-sm col-sm-6" id="valueField"
+                                placeholder="element">
+                        </div>
+                    </div>
+                    <div class="col">
+                        <button type="button" class="btn btn-success form-control-sm"
+                            data-toggle="tooltip"
+                            title="Add element to the End of List! add random number if not specified in adjacent input box"
+                            onclick="onAddLastListner(event)">
+                            Push
+                        </button>
+                    </div>
+                </div>
+                <div class="row" style="margin: 10px;">
+                    <!-- <div class="col">
+                        <div class="form-group row">
+                            <label for="indexField" class="col-sm-4 col-form-label">index of element :</label>
+                            <input type="number" class="form-control form-control-sm col-sm-6" id="indexField"
+                                placeholder="index">
+                        </div>
+                    </div> -->
+                    <div class="col">
+                        <button type="button" class="btn btn-danger form-control-sm"
+                            data-toggle="tooltip"
+                            title="Removes element from the End List."
+                            onclick="onRemoveLastListner(event)">
+                            Pop</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <button type="button" class="btn btn-success form-control-sm"
+                            data-toggle="tooltip"
+                            title="Generates List with random element with the size speciefied in box. Takes random size if not specified in adjacent input box."
+                            onclick="generateRandomArray(event)">
+                            Generate Random Stack
+                        </button>
+                    </div>
+                    <div class="col">
+                        <h6 class="text-danger navKeys" id="errorInfo"> Max Size is set to 20
+                        </h6>
+                    </div>
+            </form>
+        </div>
+        <div class="row" id="floor">
+            <br />
+
+        </div>
+        <!-- <div id="in0" class="cell column">
+            <div>23</div><div style="color: red;">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;--------&#62;</div>
+        </div> -->
+
+    </section>
+    <script src="../js/anime/anime.min.js"></script>
+    <script>
+        anime({
+            targets: '.cell',
+            translateX: 50,
+            translateY: 100,
+            //loop: true,
+            easing: 'easeOutQuad'
+        });
+    </script>
+
+    <script>
+        function addToArray(index) {
+            anime({
+                targets: ".cell",
+                translateX: {
+                    value: 50,
+                    duration: 800
+                },
+                translateY: 100,
+                duration: 3000,
+                delay: 1000,
+                easing: 'easeOutQuad'
+            });
+        }
+        var end = 0;
+        function generateRandomArray(event) {
+            document.getElementById('floor')
+                .innerHTML = '<br/>';
+            var size = Math.floor(Math.random() * 21);
+            for (let i = 0; i < size; i++) {
+                var num = Math.floor(Math.random() * 101);
+                document.getElementById('floor')
+                    .innerHTML += '<div id="in' +
+                    end +
+                    '" class="cell column"><div>' +
+                    num +
+                    '</div><div style="color: red;">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;--------&#62;</div></div>';
+                end++
+                addToArray(end);
+            }
+            event.preventDefault();
+        }
+
+        function onAddLastListner(event) {
+            var valueField = document.getElementById('valueField');
+            if (end >= 20) {
+                var myobj = document.getElementById('errorInfo');
+                //myobj.removeChild(myobj.childNodes);
+                myobj.innerHTML = 'Overfow!';
+            }
+            else {
+                var number = valueField.value ? valueField.value : Math.floor(Math.random() * 101);
+                let id = 'floor'
+                var myobj = document.getElementById(id);
+                myobj.innerHTML += '<div id="in' +
+                    end +
+                    '" class="cell column"><div>' +
+                    number +
+                    '</div><div style="color: red;">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;--------&#62;</div></div>';
+                addToArray(end);
+                end++;
+            }
+            event.preventDefault();
+        }
+
+        function onRemoveLastListner(event) {
+            if (end <= 0) {
+                var myobj = document.getElementById('errorInfo');
+                //myobj.removeChild(myobj.childNodes);
+                myobj.innerHTML = 'UnderFlow!';
+            }
+            else {
+                let id = 'in' + (end - 1).toString()
+                var myobj = document.getElementById(id);
+                myobj.remove();
+                end--;
+            }
+            event.preventDefault();
+        }
+    </script>
+
+</body>
+
+</html>
