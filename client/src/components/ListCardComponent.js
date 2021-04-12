@@ -2,7 +2,6 @@ import React, { Fragment } from 'react'
 import { Link } from 'react-router-dom'
 
 function ListCardComponent(props) {
-    console.log(props);
     return (
         <Fragment>
             <div className="card mb-3 text-left">

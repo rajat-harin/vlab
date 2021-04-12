@@ -1,6 +1,7 @@
 import Axios from 'axios';
+import { ChevronRight } from 'bootstrap-icons-react';
 import React, { useState, useEffect } from 'react';
-import { NavLink as RRNavLink, Route, Switch } from 'react-router-dom';
+import { Link, NavLink as RRNavLink, Route, Switch } from 'react-router-dom';
 import { Nav, NavItem, NavLink } from 'reactstrap';
 
 import TopicComponent from './TopicComponent';
@@ -9,10 +10,9 @@ function TopicPage({match}) {
     useEffect(() => {
         fetchTopic();
     }, []);
-
     const [topicDetails, setTopicDetails] = useState({});
     const [items, setItems] = useState([]);
-
+    const [simName, setSimName] = useState("undefined");
     const fetchTopic = () => {
         let menu = [
             {
@@ -54,21 +54,36 @@ function TopicPage({match}) {
             .catch(err => {
                 console.log(err);
             })
+        setSimName(match.params.topic ? match.params.topic : match.params.simulation);
     }
 
     return (
         <div>
+            <div>
+                <br></br>
+            <div className="courseNavigation text-left">
+                            <Link to={`/branch/${match.params.branch}`} className="btn btn-light btn-lg">
+                                Subjects({match.params.branch})
+                            </Link>
+                            <ChevronRight/>
+                            <Link to={`/branch/${match.params.branch}/${match.params.subject}`} className="btn btn-light btn-lg">
+                                {match.params.subject}
+                            </Link>
+                            <ChevronRight/>
+                            <Link to={`/branch/${match.params.branch}/${match.params.subject}/${simName}/introduction`} className="btn btn-light btn-lg">
+                                {simName}
+                            </Link>
+                            </div>
+                            <hr/>
+            </div>
             <br/>
             <Nav tabs>
-                {
-                    console.log(match)
-                }
                 {
                     items.map(item => (
                         <NavItem>
                             <NavLink
                             
-                            to={`/branch/${match.params.branch}/${match.params.subject}/${match.params.simulation}${item.path}`} 
+                            to={`/branch/${match.params.branch}/${match.params.subject}/${simName}${item.path}`} 
                             tag={RRNavLink}
                             >
                                 {item.title.toUpperCase()}

@@ -1,6 +1,7 @@
 import Axios from 'axios';
 import React, { Component, Fragment } from 'react';
 import { } from 'react';
+import { Link } from 'react-router-dom';
 import { Form, FormGroup, Input } from 'reactstrap';
 import SubjectCardComponent from './SubjectCardComponent';
 
@@ -36,6 +37,11 @@ class ListSubjects extends Component {
             [e.target.name]: e.target.value
         })
     }
+    // onNavButtonClick = e => {
+    //     let link  = "/branch/"+this.props.match.params.branch;
+    //     console.log(link);
+    //     <Redirect to = {{pathname: link}}/>
+    // }
     render() {
         let fCount = 0;
         return (
@@ -45,6 +51,12 @@ class ListSubjects extends Component {
                 <Form>
                     <FormGroup>
                         <div className="container">
+                            <div className="courseNavigation text-left">
+                            <Link to={`/branch/${this.props.match.params.branch}`} className="btn btn-light btn-lg">
+                                Subjects({this.props.match.params.branch})
+                            </Link>
+                            </div>
+                            <hr/>
                             <div className="row">
                                 <div className="col-sm">
                                     <div className="container text-left">

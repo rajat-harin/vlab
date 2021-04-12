@@ -8,6 +8,7 @@
     "@testing-library/user-event": "^7.2.1",
     "axios": "^0.21.1",
     "bootstrap": "^4.5.3",
+    "bootstrap-icons-react": "^1.0.0",
     "concurrently": "^5.3.0",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
