@@ -88,10 +88,6 @@ class SearchSimPage extends Component {
                             this.props.exps.filter(
                                 ({ name }) => {
                                     let id = String(name)
-                                    console.log("in filter")
-                                    console.log(this.state.selectSub);
-                                    console.log(id.toLowerCase().includes(this.state.searchText));
-
                                     return id.toLowerCase().includes(this.state.searchText.toLowerCase())
                                 }
                             )

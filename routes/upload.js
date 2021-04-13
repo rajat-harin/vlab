@@ -56,35 +56,69 @@ const unZipToFS = (file, newFileName) => {
   return
 }
 
+const ContentType = {
+  'html': 'text/html',
+  'data': 'application/octet-stream',
+  'json': 'application/json',
+  'wasm': 'application/wasm',
+  'js': 'application/javascript',
+  'png': 'image/png',
+  'ico': 'image/x-icon',
+  'css': 'text/css'
+}
+const getMIMEType = (filename) =>
+{
+  //method to get mime type
+  
+   if (filename.toString().endsWith('.html')) {
+     return ContentType['html'];
+     
+   } 
+   if (filename.toString().endsWith('.data.unityweb')) {
+    return ContentType['data'];
+     
+   } else if (filename.toString().endsWith('.json')) {
+    return ContentType['json'];
+
+   } else if (filename.toString().endsWith('.wasm.code.unityweb')) {
+     return ContentType['wasm'];
+
+   } else if (filename.toString().endsWith('.wasm.framework.unityweb')) {
+    return ContentType['wasm'];
+
+   }else if (filename.toString().endsWith('.js')) {
+     return ContentType['js'];
+
+   } else if (filename.toString().endsWith('.png')) {
+     return ContentType['png'];
+
+   } else if (filename.toString().endsWith('.ico')) {
+     return ContentType['ico'];
+
+   } else if (filename.toString().endsWith('.css')) {
+     return ContentType['css'];
+
+   } else {
+     return ContentType['data'];
+   }
+}
+
 const unZipToBucket = (file, newFileName) => {
   // reading archives
   var zip = new AdmZip(path.join(file.destination, file.filename));
   var zipEntries = zip.getEntries();
   zipEntries.forEach(function (zipEntry) {
-    if (zipEntry.entryName == "index.html") {
+    
       s3.upload({
         Bucket: bucketName,
         Key: newFileName + '/' + zipEntry.entryName,
         Body: zipEntry.getData(),
-        ContentType: 'text/html'
+        ContentType: getMIMEType(zipEntry.name)
       },
         (err, data) => {
           return err
         }
       )
-    }
-    else {
-      s3.upload({
-        Bucket: bucketName,
-        Key: newFileName + '/' + zipEntry.entryName,
-        Body: zipEntry.getData()
-      },
-        (err, data) => {
-          return err
-        }
-      )
-    }
-
   });
 }
 
