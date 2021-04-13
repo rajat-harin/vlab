@@ -25,8 +25,6 @@ router.get('/subject/:name', (req, res) => {
         { $group: { _id: "$subject", count: { $sum: 1 } } }
     ])
         .then(subject => {
-            console.log("listing Subject....:");
-            console.log(subject);
             res.json(subject)
         })
         .catch(err => {
@@ -60,7 +58,15 @@ router.get('/all/:name', (req, res) => {
             res.status(400).json('Error: ' + err)
         });
 });
-
+router.get('/subjectList',(req, res)=>{
+    Topic.find().distinct('subject')
+    .then(result => {
+        res.json(result)
+    })
+    .catch(err => {
+        res.status(400).json('Error: ' + err)
+    });
+})
 
 router.post('/', (req, res) => {
     let { name, branch, subject, introduction, theory, objective, procedure, simulation } = req.body;
@@ -148,5 +154,7 @@ router.post('/drop', (req, res) => {
             })
         });
 });
+
+
 
 module.exports = router;

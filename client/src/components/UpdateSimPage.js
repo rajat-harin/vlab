@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Axios from 'axios';
 import {
     Label,
     Input,
@@ -17,7 +18,10 @@ import { clearErrors } from '../actions/errorActions';
 import Spinner from './Spinner';
 import { withRouter } from 'react-router-dom';
 import FileUploadPage from './FileUploadPage';
+import Autocomplete, { createFilterOptions } from '@material-ui/lab/Autocomplete';
+import { TextField } from '@material-ui/core';
 
+const filter = createFilterOptions();
 class UpdateSimPage extends Component {
     state = {
         modal: true,
@@ -32,7 +36,8 @@ class UpdateSimPage extends Component {
         selectedFile: null,
         msg: null,
         isNewUpload: false,
-        isSubmit: false
+        isSubmit: false,
+        subjectList:[]
     }
 
     static propTypes = {
@@ -44,7 +49,26 @@ class UpdateSimPage extends Component {
     }
 
     componentDidMount() {
-        this.props.getSingleSim(this.props.match.params.id)
+        this.props.getSingleSim(this.props.match.params.id);
+        let config = {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        };
+        Axios.get('/topic/subjectList', config)
+            .then(res => {
+                let listSubject = [];
+                res.data.forEach(element => {
+                    listSubject.push({title: element})
+                });
+                this.setState({
+                    subjectList: listSubject
+                })
+            })
+            .catch(err => {
+                console.log(err);
+            })
+            
     }
     componentDidUpdate(prevProps) {
         if (this.props.singleExp !== prevProps.singleExp) {
@@ -218,7 +242,7 @@ class UpdateSimPage extends Component {
                                 <option value = "aiml">AIML</option>
                             </Input>
                         </FormGroup>
-                        <FormGroup className="row">
+                        {/* <FormGroup className="row">
                             <Label for="subject" className="col-sm-2 col-form-label font-weight-bold">Subject</Label>
                             <Input
                                 type="text"
@@ -230,7 +254,66 @@ class UpdateSimPage extends Component {
                                 className="col-sm-10"
                                 required
                             />
+                        </FormGroup> */}
+                        <FormGroup className="row">
+                            <Label for="subject" className="col-sm-2 col-form-label font-weight-bold">Subject</Label>
+                            <Autocomplete
+                                value={this.state.subject}
+                                onChange={(event, newValue) => {
+                                    if (typeof newValue === 'string') {
+                                        this.setState({
+                                            subject: newValue,
+                                        });
+                                    } else if (newValue && newValue.inputValue) {
+                                        // Create a new value from the user input
+                                        this.setState({
+                                            subject: newValue.inputValue,
+                                        });
+                                    } else {
+                                        this.setState(newValue);
+                                    }
+                                }}
+                                filterOptions={(options, params) => {
+                                    const filtered = filter(options, params);
+
+                                    // Suggest the creation of a new value
+                                    if (params.inputValue !== '') {
+                                        filtered.push({
+                                            inputValue: params.inputValue,
+                                            title: `Add "${params.inputValue}"`,
+                                        });
+                                    }
+
+                                    return filtered;
+                                }}
+                                name="subject"
+                                id="subject"
+                                style={{ width: "80%" }}
+                                options={this.state.subjectList}
+                                getOptionLabel={(option) => {
+                                    // Value selected with enter, right from the input
+                                    if (typeof option === 'string') {
+                                      return option;
+                                    }
+                                    // Add "xxx" option created dynamically
+                                    if (option.inputValue) {
+                                      return option.inputValue;
+                                    }
+                                    // Regular option
+                                    return option.title;
+                                  }}
+                                size="small"
+                                renderInput={(params) => <TextField {...params}
+                                    label="subject"
+                                    variant="outlined"
+                                    onChange={this.onChange}
+                                    className="col-sm-10"
+                                    freeSolo
+                                    required
+                                />}
+                            />
                         </FormGroup>
+
                         <FormGroup className="row">
                             <Label for="introduction" className="col-sm-2 col-form-label font-weight-bold">Introduction</Label>
                             <Input
