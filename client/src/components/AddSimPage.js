@@ -63,7 +63,6 @@ class AddSimPage extends Component {
     }
 
     componentDidUpdate(prevProps) {
-
         const { error, isSuccess } = this.props;
         if (error !== prevProps.error) {
             //CHECK for register error
@@ -257,8 +256,7 @@ class AddSimPage extends Component {
                                     label="subject"
                                     variant="outlined"
                                     onChange={this.onChange}
-                                    className="col-sm-10"
-                                    
+                                    className="col-sm-10"                                  
                                     required
                                 />}
                             />
