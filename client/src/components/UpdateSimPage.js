@@ -102,7 +102,7 @@ class UpdateSimPage extends Component {
 
     onChange = e => {
         if (e.target.name === "objective" || e.target.name === "procedure") {
-            this.setState({ [e.target.name]: e.target.value.split(',') })
+            this.setState({ [e.target.name]: e.target.value.split('\n') })
         }
         else if(e.target.name === "isNewUpload") {
             this.setState({ [e.target.name]: e.target.checked })
