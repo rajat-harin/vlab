@@ -80,8 +80,8 @@ router.get('/add/confirm/:id', (req, res) => {
       // user and let them know their email address has been confirmed.
       else if (user && !user.confirmed) {
         User.findByIdAndUpdate(id, { confirmed: true })
-          .then(() => res.statusCode(200).json({ msg: msgs.confirmed }))
-          .catch(err => res.statusCode(500).json({ 
+          .then(() => res.status(200).json({ msg: msgs.confirmed }))
+          .catch(err => res.status(500).json({ 
             msg: "Status:500!Internal Server error.",
             err
             }))
